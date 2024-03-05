@@ -13,3 +13,9 @@ export type CreateJobFormState = {
     description?: string[];
   };
 };
+
+export type JobFilters = {
+  query?: string;
+  categoryName?: string;
+  type?: string;
+};
