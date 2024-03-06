@@ -21,6 +21,7 @@ export default function Filters({ categories }: { categories: Category[] }) {
         params.delete(key);
       }
     });
+    params.set('page', '1');
     router.replace(`${pathname}?${params.toString()}`);
   };
 

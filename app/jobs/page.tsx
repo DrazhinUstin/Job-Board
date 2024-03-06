@@ -1,10 +1,11 @@
 import Link from 'next/link';
-import { fetchCategories } from '../lib/data';
+import { fetchCategories, fetchJobsTotalPages } from '../lib/data';
 import Filters from '../components/jobs/filters';
 import Order from '../components/jobs/order';
 import JobList from '../components/jobs/job-list';
 import { Suspense } from 'react';
 import { Prisma } from '@prisma/client';
+import Pagination from '../components/jobs/pagination';
 
 interface PageProps {
   searchParams: {
@@ -12,15 +13,20 @@ interface PageProps {
     categoryName?: string;
     type?: string;
     orderBy?: string;
+    page?: string;
   };
 }
 
 export default async function Page({ searchParams }: PageProps) {
-  const categories = await fetchCategories();
-  const { orderBy, ...filters } = searchParams;
+  const { orderBy, page, ...filters } = searchParams;
   const parsedOrderBy = orderBy
     ? (JSON.parse(orderBy) as Prisma.JobOrderByWithRelationInput)
     : undefined;
+  const currentPage = Number(page) || 1;
+  const [categories, totalPages] = await Promise.all([
+    fetchCategories(),
+    fetchJobsTotalPages(filters),
+  ]);
   return (
     <main>
       <h2>Jobs</h2>
@@ -30,8 +36,9 @@ export default async function Page({ searchParams }: PageProps) {
         <Filters categories={categories} />
         <Order />
         <Suspense key={JSON.stringify(searchParams)} fallback={<h2>LOADING...</h2>}>
-          <JobList filters={filters} orderBy={parsedOrderBy} />
+          <JobList filters={filters} orderBy={parsedOrderBy} currentPage={currentPage} />
         </Suspense>
+        <Pagination currentPage={currentPage} totalPages={totalPages} />
       </div>
     </main>
   );
