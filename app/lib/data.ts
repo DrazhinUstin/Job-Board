@@ -108,3 +108,13 @@ export async function fetchJobsTotalPages(filters: JobFilters) {
     throw Error('Failed to fetch jobs count');
   }
 }
+
+export async function fetchJobById(id: string) {
+  try {
+    const job = await prisma.job.findUnique({ where: { id } });
+    return job;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw Error(`Failed to fetch job with id: ${id}`);
+  }
+}
