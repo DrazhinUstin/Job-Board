@@ -2,6 +2,7 @@ import { Job } from '@prisma/client';
 import Image from 'next/image';
 import { auth } from '@/auth';
 import Link from 'next/link';
+import DeleteJobForm from './delete-job-form';
 
 export default async function JobCard({
   id,
@@ -29,6 +30,7 @@ export default async function JobCard({
       {user && user.id === userId && (
         <div>
           <Link href={`/jobs/${id}/edit`}>edit</Link>
+          <DeleteJobForm id={id} userId={userId} companyLogoUrl={companyLogoUrl} />
         </div>
       )}
     </article>

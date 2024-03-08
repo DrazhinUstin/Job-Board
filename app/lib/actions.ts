@@ -8,6 +8,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { CreateJobFormSchema } from './schemas';
 import type { CreateJobFormState } from './types';
+import { Job } from '@prisma/client';
 
 export async function signInWithProvider(providerId: string, prevState: string | undefined) {
   try {
@@ -57,8 +58,8 @@ export async function createJob(
 
 export async function editJob(
   id: string,
-  creatorId: string,
-  existingCompanyLogoUrl: string | null,
+  creatorId: Job['userId'],
+  existingCompanyLogoUrl: Job['companyLogoUrl'],
   prevState: CreateJobFormState,
   formData: FormData
 ): Promise<CreateJobFormState> {
@@ -97,4 +98,29 @@ export async function editJob(
   }
   revalidatePath('/jobs');
   redirect('/jobs');
+}
+
+export async function deleteJob(
+  id: string,
+  creatorId: Job['userId'],
+  companyLogoUrl: Job['companyLogoUrl']
+) {
+  const user = (await auth())?.user;
+  if (!user || user.id !== creatorId) {
+    throw Error('Not authorized access. Cannot delete a job');
+  }
+  try {
+    if (companyLogoUrl) {
+      await del(companyLogoUrl);
+    }
+    await prisma.job.delete({
+      where: { id },
+    });
+    revalidatePath('/jobs');
+  } catch (error) {
+    if (error instanceof BlobAccessError) {
+      throw Error('Storage error: Failed to delete a file');
+    }
+    throw Error('Database error: Failed to delete a job');
+  }
 }
