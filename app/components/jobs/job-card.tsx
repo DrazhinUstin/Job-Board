@@ -27,6 +27,7 @@ export default async function JobCard({
       <p style={{ color: 'orange' }}>{type}</p>
       <p style={{ color: 'royalblue' }}>{location}</p>
       <p>{salary / 100}$</p>
+      <Link href={`/jobs/${id}`}>browse job</Link>
       {user && user.id === userId && (
         <div>
           <Link href={`/jobs/${id}/edit`}>edit</Link>
