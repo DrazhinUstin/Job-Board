@@ -29,8 +29,12 @@ export default async function JobDetails({
       <h2>{title}</h2>
       <div>
         <h3>organization:</h3>
-        {companyLogoUrl && <Image src={companyLogoUrl} alt='company logo' width={50} height={50} />}
-        {companyName}
+        <div>
+          {companyLogoUrl && (
+            <Image src={companyLogoUrl} alt='company logo' width={50} height={50} />
+          )}
+          <p>{companyName}</p>
+        </div>
       </div>
       <div>
         <h3>job overview:</h3>
@@ -40,7 +44,11 @@ export default async function JobDetails({
         <p>
           type: <span>{type}</span>
         </p>
-        {location && <p>location: {location}</p>}
+        {location && (
+          <p>
+            location: <span>{location}</span>
+          </p>
+        )}
         <p>
           salary: <span>{salary / 100}$</span>
         </p>
@@ -56,8 +64,16 @@ export default async function JobDetails({
       )}
       <div>
         <h3>contacts:</h3>
-        {contactEmail && <p>email: {contactEmail}</p>}
-        {contactUrl && <p>website: {contactUrl}</p>}
+        {contactEmail && (
+          <p>
+            email: <span>{contactEmail}</span>
+          </p>
+        )}
+        {contactUrl && (
+          <p>
+            website: <span>{contactUrl}</span>
+          </p>
+        )}
       </div>
       {user && user.id === userId && (
         <div>

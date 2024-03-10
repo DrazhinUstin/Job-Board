@@ -6,6 +6,11 @@ import JobList from '../components/jobs/job-list';
 import { Suspense } from 'react';
 import { Prisma } from '@prisma/client';
 import Pagination from '../components/jobs/pagination';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Jobs',
+};
 
 interface PageProps {
   searchParams: {
