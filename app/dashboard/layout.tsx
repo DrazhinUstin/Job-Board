@@ -1,7 +1,10 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Dashboard',
+  title: {
+    template: '%s | Dashboard',
+    default: 'Dashboard',
+  },
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {

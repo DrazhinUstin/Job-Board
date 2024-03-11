@@ -7,19 +7,14 @@ import { Suspense } from 'react';
 import { Prisma } from '@prisma/client';
 import Pagination from '../components/jobs/pagination';
 import { Metadata } from 'next';
+import { JobsPageSearchParams } from '../lib/types';
 
 export const metadata: Metadata = {
   title: 'Jobs',
 };
 
 interface PageProps {
-  searchParams: {
-    query?: string;
-    categoryName?: string;
-    type?: string;
-    orderBy?: string;
-    page?: string;
-  };
+  searchParams: JobsPageSearchParams;
 }
 
 export default async function Page({ searchParams }: PageProps) {
@@ -36,7 +31,6 @@ export default async function Page({ searchParams }: PageProps) {
     <main>
       <h2>Jobs</h2>
       <p>This is a page where you can view all available jobs</p>
-      <Link href='/jobs/create'>create a job</Link>
       <div>
         <Filters categories={categories} />
         <Order />

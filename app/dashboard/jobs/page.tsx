@@ -8,6 +8,12 @@ import { auth } from '@/auth';
 import { Prisma } from '@prisma/client';
 import { User } from 'next-auth';
 import { Suspense } from 'react';
+import Link from 'next/link';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Jobs',
+};
 
 interface PageProps {
   searchParams: JobsPageSearchParams;
@@ -26,6 +32,8 @@ export default async function Page({ searchParams }: PageProps) {
   ]);
   return (
     <main>
+      <h2>Your created jobs</h2>
+      <Link href='/dashboard/jobs/create'>create a job</Link>
       <div>
         <Filters categories={categories} />
         <Order />

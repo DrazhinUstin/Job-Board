@@ -30,7 +30,7 @@ export default async function JobCard({
       <Link href={`/jobs/${id}`}>browse job</Link>
       {user && user.id === userId && (
         <div>
-          <Link href={`/jobs/${id}/edit`}>edit</Link>
+          <Link href={`/dashboard/jobs/${id}/edit`}>edit</Link>
           <DeleteJobForm id={id} userId={userId} companyLogoUrl={companyLogoUrl} />
         </div>
       )}

@@ -77,7 +77,7 @@ export default async function JobDetails({
       </div>
       {user && user.id === userId && (
         <div>
-          <Link href={`/jobs/${id}/edit`}>edit</Link>
+          <Link href={`/dashboard/jobs/${id}/edit`}>edit</Link>
           <DeleteJobForm id={id} userId={userId} companyLogoUrl={companyLogoUrl} />
         </div>
       )}

@@ -52,8 +52,8 @@ export async function createJob(
       errorMsg: 'Database error: Failed to create a job',
     };
   }
-  revalidatePath('/jobs');
-  redirect('/jobs');
+  revalidatePath('/');
+  redirect('/dashboard/jobs');
 }
 
 export async function editJob(
@@ -96,8 +96,8 @@ export async function editJob(
     }
     return { errorMsg: 'Database error: Failed to edit a job' };
   }
-  revalidatePath('/jobs');
-  redirect('/jobs');
+  revalidatePath('/');
+  redirect('/dashboard/jobs');
 }
 
 export async function deleteJob(
@@ -116,7 +116,7 @@ export async function deleteJob(
     await prisma.job.delete({
       where: { id },
     });
-    revalidatePath('/jobs');
+    revalidatePath('/');
   } catch (error) {
     if (error instanceof BlobAccessError) {
       throw Error('Storage error: Failed to delete a file');
