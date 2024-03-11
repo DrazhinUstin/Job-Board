@@ -22,7 +22,7 @@ export async function fetchJobs(
   page: number = 1
 ) {
   noStore();
-  const { query, categoryName, type } = filters;
+  const { query, categoryName, type, userId } = filters;
   const queryInput: Prisma.JobWhereInput = {
     OR: [
       {
@@ -54,7 +54,12 @@ export async function fetchJobs(
     },
   };
   const where: Prisma.JobWhereInput = {
-    AND: [query ? queryInput : {}, categoryName ? categoryNameInput : {}, type ? typeInput : {}],
+    AND: [
+      query ? queryInput : {},
+      categoryName ? categoryNameInput : {},
+      type ? typeInput : {},
+      userId ? { userId } : {},
+    ],
   };
   const skip = (page - 1) * jobsPerPage;
   try {
@@ -73,7 +78,7 @@ export async function fetchJobs(
 
 export async function fetchJobsTotalPages(filters: JobFilters) {
   noStore();
-  const { query, categoryName, type } = filters;
+  const { query, categoryName, type, userId } = filters;
   const queryInput: Prisma.JobWhereInput = {
     OR: [
       {
@@ -99,7 +104,12 @@ export async function fetchJobsTotalPages(filters: JobFilters) {
   try {
     const count = await prisma.job.count({
       where: {
-        AND: [query ? queryInput : {}, categoryName ? { categoryName } : {}, type ? { type } : {}],
+        AND: [
+          query ? queryInput : {},
+          categoryName ? { categoryName } : {},
+          type ? { type } : {},
+          userId ? { userId } : {},
+        ],
       },
     });
     return Math.ceil(count / jobsPerPage);

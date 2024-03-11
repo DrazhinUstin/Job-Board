@@ -18,4 +18,7 @@ export type JobFilters = {
   query?: string;
   categoryName?: string;
   type?: string;
+  userId?: string;
 };
+
+export type JobsPageSearchParams = Omit<JobFilters, 'userId'> & { orderBy?: string; page?: string };
