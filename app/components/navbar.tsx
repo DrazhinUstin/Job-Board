@@ -11,7 +11,7 @@ export default async function Navbar() {
         <Link href='/jobs'>jobs</Link>
         {user && (
           <>
-            <Link href='/dashboard/jobs'>dashboard</Link>
+            <Link href='/dashboard'>dashboard</Link>
             <Link href='/profile'>profile</Link>
           </>
         )}

@@ -128,3 +128,13 @@ export async function fetchJobById(id: string) {
     throw Error(`Failed to fetch job with id: ${id}`);
   }
 }
+
+export async function fetchUserCompany(userId: string) {
+  try {
+    const company = await prisma.company.findUnique({ where: { userId } });
+    return company;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw Error('Failed to fetch company');
+  }
+}

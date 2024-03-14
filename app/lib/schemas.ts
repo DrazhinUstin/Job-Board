@@ -42,3 +42,11 @@ export const CreateJobFormSchema = z
     description: z.string().max(1000).optional(),
   })
   .and(ContactsSchema);
+
+export const CompanyFormSchema = z.object({
+  name: requiredString,
+  logo: LogoSchema,
+  location: z.string().max(200).optional(),
+  description: z.string().max(1000).optional(),
+  websiteUrl: z.string().url().optional().or(z.literal('')),
+});

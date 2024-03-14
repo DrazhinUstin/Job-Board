@@ -6,9 +6,9 @@ import { prisma } from '@/client';
 import { put, del, BlobAccessError } from '@vercel/blob';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { CreateJobFormSchema } from './schemas';
-import type { CreateJobFormState } from './types';
-import { Job } from '@prisma/client';
+import { CreateJobFormSchema, CompanyFormSchema } from './schemas';
+import type { CreateJobFormState, CompanyFormState } from './types';
+import { Job, Company } from '@prisma/client';
 
 export async function signInWithProvider(providerId: string, prevState: string | undefined) {
   try {
@@ -123,4 +123,47 @@ export async function deleteJob(
     }
     throw Error('Database error: Failed to delete a job');
   }
+}
+
+export async function upsertCompany(
+  existingLogoUrl: Company['logoUrl'],
+  prevState: CompanyFormState,
+  formData: FormData
+): Promise<CompanyFormState> {
+  const validatedFields = CompanyFormSchema.safeParse(Object.fromEntries(formData.entries()));
+  if (!validatedFields.success) {
+    return {
+      errorMsg: 'Invalid fields. Fix the errors and click the submit button again',
+      fieldErrors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+  const user = (await auth())?.user;
+  if (!user) {
+    throw Error('Not authorized access. Cannot upsert company');
+  }
+  const { logo, ...rest } = validatedFields.data;
+  let logoUrl: Company['logoUrl'] = null;
+  try {
+    if (logo) {
+      if (existingLogoUrl) {
+        await del(existingLogoUrl);
+      }
+      const blob = await put(`company_logos/${logo.name}`, logo, {
+        access: 'public',
+      });
+      logoUrl = blob.url;
+    }
+    await prisma.company.upsert({
+      where: { userId: user.id },
+      update: { ...(logoUrl ? { logoUrl } : {}), ...rest },
+      create: { userId: user.id as string, logoUrl, ...rest },
+    });
+  } catch (error) {
+    if (error instanceof BlobAccessError) {
+      return { errorMsg: 'Storage error: Failed to download a file' };
+    }
+    return { errorMsg: 'Database error: Failed to upsert company' };
+  }
+  revalidatePath('/');
+  redirect('/dashboard');
 }
