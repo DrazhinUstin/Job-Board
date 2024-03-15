@@ -138,3 +138,27 @@ export async function fetchUserCompany(userId: string) {
     throw Error('Failed to fetch company');
   }
 }
+
+export async function fetchUserOverview(userId: string) {
+  try {
+    const data = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        company: { select: { name: true, logoUrl: true } },
+        jobs: {
+          select: { title: true, salary: true, createdAt: true },
+          orderBy: { createdAt: 'desc' },
+          take: 1,
+        },
+        _count: { select: { jobs: true } },
+      },
+    });
+    if (!data) {
+      throw Error('User was not found');
+    }
+    return { company: data.company, latestJob: data.jobs[0], totalJobs: data._count.jobs };
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw Error('Failed to fetch user overview');
+  }
+}
