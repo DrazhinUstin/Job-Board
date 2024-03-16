@@ -1,9 +1,10 @@
 import Filters from '@/app/components/jobs/filters';
-import Order from '@/app/components/jobs/order';
+import Order from '@/app/components/order';
 import JobList from '@/app/components/jobs/job-list';
-import Pagination from '@/app/components/jobs/pagination';
+import Pagination from '@/app/components/pagination';
 import { fetchCategories, fetchJobsTotalPages } from '@/app/lib/data';
 import type { JobsPageSearchParams } from '@/app/lib/types';
+import { orderOptions } from '@/app/lib/job-order-options';
 import { auth } from '@/auth';
 import { Prisma } from '@prisma/client';
 import { User } from 'next-auth';
@@ -36,7 +37,7 @@ export default async function Page({ searchParams }: PageProps) {
       <Link href='/dashboard/jobs/create'>create a job</Link>
       <div>
         <Filters categories={categories} />
-        <Order />
+        <Order options={orderOptions} />
         <Suspense key={JSON.stringify(searchParams)} fallback={<h2>LOADING...</h2>}>
           <JobList
             filters={{ ...filters, userId: currentUser.id }}

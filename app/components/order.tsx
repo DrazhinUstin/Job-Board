@@ -1,9 +1,17 @@
 'use client';
 
+import { Prisma } from '@prisma/client';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
-import { orderOptions } from '@/app/lib/job-order-options';
 
-export default function Order() {
+interface Props {
+  options: {
+    id: number;
+    label: string;
+    value: Prisma.JobOrderByWithRelationInput | Prisma.CompanyOrderByWithRelationInput;
+  }[];
+}
+
+export default function Order({ options }: Props) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -24,7 +32,7 @@ export default function Order() {
         onChange={handleChange}
         defaultValue={searchParams.get('orderBy') || undefined}
       >
-        {orderOptions.map((option) => (
+        {options.map((option) => (
           <option key={option.id} value={JSON.stringify(option.value)}>
             {option.label}
           </option>

@@ -1,13 +1,13 @@
-import Link from 'next/link';
 import { fetchCategories, fetchJobsTotalPages } from '../lib/data';
 import Filters from '../components/jobs/filters';
-import Order from '../components/jobs/order';
+import Order from '../components/order';
 import JobList from '../components/jobs/job-list';
 import { Suspense } from 'react';
 import { Prisma } from '@prisma/client';
-import Pagination from '../components/jobs/pagination';
+import Pagination from '../components/pagination';
 import { Metadata } from 'next';
 import { JobsPageSearchParams } from '../lib/types';
+import { orderOptions } from '../lib/job-order-options';
 
 export const metadata: Metadata = {
   title: 'Jobs',
@@ -33,7 +33,7 @@ export default async function Page({ searchParams }: PageProps) {
       <p>This is a page where you can view all available jobs</p>
       <div>
         <Filters categories={categories} />
-        <Order />
+        <Order options={orderOptions} />
         <Suspense key={JSON.stringify(searchParams)} fallback={<h2>LOADING...</h2>}>
           <JobList filters={filters} orderBy={parsedOrderBy} currentPage={currentPage} />
         </Suspense>

@@ -183,6 +183,38 @@ export async function fetchCompanies(
   }
 }
 
+export async function fetchCompaniesTotalPages(filters: CompanyFilters) {
+  const { query } = filters;
+  const queryInput: Prisma.CompanyWhereInput = {
+    OR: [
+      {
+        name: {
+          contains: query,
+          mode: 'insensitive',
+        },
+      },
+      {
+        location: {
+          contains: query,
+          mode: 'insensitive',
+        },
+      },
+    ],
+  };
+  const where: Prisma.CompanyWhereInput = {
+    ...(query ? queryInput : {}),
+  };
+  try {
+    const count = await prisma.company.count({
+      where,
+    });
+    return Math.ceil(count / companiesPerPage);
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw Error('Failed to fetch companies count');
+  }
+}
+
 export async function fetchUserCompany(userId: string) {
   try {
     const company = await prisma.company.findUnique({ where: { userId } });
