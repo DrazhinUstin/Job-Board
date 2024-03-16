@@ -1,8 +1,9 @@
 import { prisma } from '@/client';
 import { Prisma } from '@prisma/client';
 import { unstable_noStore as noStore } from 'next/cache';
-import type { JobFilters } from './types';
+import type { JobFilters, CompanyFilters } from './types';
 import { orderOptions } from './job-order-options';
+import { orderOptions as companiesOrder } from './company-order-options';
 
 export async function fetchCategories() {
   try {
@@ -126,6 +127,59 @@ export async function fetchJobById(id: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw Error(`Failed to fetch job with id: ${id}`);
+  }
+}
+
+const companiesPerPage = 6;
+
+export async function fetchCompanies(
+  filters: CompanyFilters,
+  orderBy: Prisma.CompanyOrderByWithRelationInput = companiesOrder[0].value,
+  page: number = 1
+) {
+  const { query } = filters;
+  const queryInput: Prisma.CompanyWhereInput = {
+    OR: [
+      {
+        name: {
+          contains: query,
+          mode: 'insensitive',
+        },
+      },
+      {
+        location: {
+          contains: query,
+          mode: 'insensitive',
+        },
+      },
+    ],
+  };
+  const where: Prisma.CompanyWhereInput = { ...(query ? queryInput : {}) };
+  const skip = (page - 1) * companiesPerPage;
+  try {
+    const companies = (
+      await prisma.company.findMany({
+        where,
+        select: {
+          id: true,
+          name: true,
+          logoUrl: true,
+          location: true,
+          user: {
+            select: {
+              _count: { select: { jobs: true } },
+            },
+          },
+        },
+        orderBy,
+        skip,
+        take: companiesPerPage,
+      })
+    ).map(({ user, ...rest }) => ({ ...rest, jobsCount: user._count.jobs }));
+    return companies;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw Error('Failed to fetch companies');
   }
 }
 

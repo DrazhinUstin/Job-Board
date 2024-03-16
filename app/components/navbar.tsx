@@ -9,6 +9,7 @@ export default async function Navbar() {
       <div style={{ display: 'flex', gap: '0.5rem' }}>
         <Link href='/'>home</Link>
         <Link href='/jobs'>jobs</Link>
+        <Link href='/companies'>companies</Link>
         {user && (
           <>
             <Link href='/dashboard'>dashboard</Link>

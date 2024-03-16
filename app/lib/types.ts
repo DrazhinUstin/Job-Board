@@ -33,3 +33,9 @@ export type CompanyFormState = {
     websiteUrl?: string[];
   };
 };
+
+export type CompanyFilters = {
+  query?: string;
+};
+
+export type CompaniesPageSearchParams = CompanyFilters & { orderBy?: string; page?: string };
