@@ -15,7 +15,7 @@ export async function fetchCategories() {
   }
 }
 
-const jobsPerPage = 6;
+export const jobsPerPage = 6;
 
 export async function fetchJobs(
   filters: JobFilters,
@@ -130,7 +130,7 @@ export async function fetchJobById(id: string) {
   }
 }
 
-const companiesPerPage = 6;
+export const companiesPerPage = 6;
 
 export async function fetchCompanies(
   filters: CompanyFilters,
@@ -212,6 +212,38 @@ export async function fetchCompaniesTotalPages(filters: CompanyFilters) {
   } catch (error) {
     console.error('Database Error:', error);
     throw Error('Failed to fetch companies count');
+  }
+}
+
+export async function fetchCompanyById(id: string) {
+  try {
+    const data = await prisma.company.findUnique({
+      where: { id },
+      include: {
+        user: {
+          select: {
+            _count: {
+              select: {
+                jobs: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    if (data) {
+      const {
+        user: {
+          _count: { jobs: jobsCount },
+        },
+        ...company
+      } = data;
+      return { ...company, jobsCount };
+    }
+    return data;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw Error('Failed to fetch company');
   }
 }
 

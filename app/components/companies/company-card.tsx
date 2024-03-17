@@ -1,7 +1,9 @@
 import { fetchCompanies } from '@/app/lib/data';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function CompanyCard({
+  id,
   name,
   logoUrl,
   location,
@@ -15,6 +17,7 @@ export default function CompanyCard({
       </div>
       <p>{location}</p>
       <p>{jobsCount} open jobs</p>
+      <Link href={`/companies/${id}`}>browse company</Link>
     </article>
   );
 }
