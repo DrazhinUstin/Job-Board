@@ -4,6 +4,7 @@ import { unstable_noStore as noStore } from 'next/cache';
 import type { JobFilters, CompanyFilters } from './types';
 import { orderOptions } from './job-order-options';
 import { orderOptions as companiesOrder } from './company-order-options';
+import { cache } from 'react';
 
 export async function fetchCategories() {
   try {
@@ -23,7 +24,7 @@ export async function fetchJobs(
   page: number = 1
 ) {
   noStore();
-  const { query, categoryName, type, userId } = filters;
+  const { query, categoryName, type, userId, companyId } = filters;
   const queryInput: Prisma.JobWhereInput = {
     OR: [
       {
@@ -60,6 +61,7 @@ export async function fetchJobs(
       categoryName ? categoryNameInput : {},
       type ? typeInput : {},
       userId ? { userId } : {},
+      companyId ? { user: { company: { id: companyId } } } : {},
     ],
   };
   const skip = (page - 1) * jobsPerPage;
@@ -79,7 +81,7 @@ export async function fetchJobs(
 
 export async function fetchJobsTotalPages(filters: JobFilters) {
   noStore();
-  const { query, categoryName, type, userId } = filters;
+  const { query, categoryName, type, userId, companyId } = filters;
   const queryInput: Prisma.JobWhereInput = {
     OR: [
       {
@@ -110,6 +112,7 @@ export async function fetchJobsTotalPages(filters: JobFilters) {
           categoryName ? { categoryName } : {},
           type ? { type } : {},
           userId ? { userId } : {},
+          companyId ? { user: { company: { id: companyId } } } : {},
         ],
       },
     });
@@ -246,6 +249,8 @@ export async function fetchCompanyById(id: string) {
     throw Error('Failed to fetch company');
   }
 }
+
+export const cachedFetchCompanyById = cache(fetchCompanyById);
 
 export async function fetchUserCompany(userId: string) {
   try {

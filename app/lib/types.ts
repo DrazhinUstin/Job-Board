@@ -19,9 +19,13 @@ export type JobFilters = {
   categoryName?: string;
   type?: string;
   userId?: string;
+  companyId?: string;
 };
 
-export type JobsPageSearchParams = Omit<JobFilters, 'userId'> & { orderBy?: string; page?: string };
+export type JobsPageSearchParams = Omit<JobFilters, 'userId' | 'companyId'> & {
+  orderBy?: string;
+  page?: string;
+};
 
 export type CompanyFormState = {
   errorMsg?: string;

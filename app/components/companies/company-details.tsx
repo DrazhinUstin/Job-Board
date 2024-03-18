@@ -1,4 +1,4 @@
-import { Company } from '@prisma/client';
+import { fetchCompanyById } from '@/app/lib/data';
 import Image from 'next/image';
 
 export default function CompanyDetails({
@@ -8,11 +8,12 @@ export default function CompanyDetails({
   description,
   websiteUrl,
   createdAt,
-}: Company) {
+  jobsCount,
+}: Exclude<Awaited<ReturnType<typeof fetchCompanyById>>, null>) {
   return (
     <section>
       <div>
-        <Image src={logoUrl || ''} alt='company logo' width={50} height={50} />
+        <Image src={logoUrl || ''} alt='company logo' width={100} height={100} />
         <h2>{name}</h2>
         <p>
           registered since: <span>{createdAt.toDateString()}</span>
@@ -30,6 +31,9 @@ export default function CompanyDetails({
             </a>
           </p>
         )}
+        <p>
+          open jobs: <span>{jobsCount}</span>
+        </p>
       </div>
       <div>
         <h3>About Company:</h3>
