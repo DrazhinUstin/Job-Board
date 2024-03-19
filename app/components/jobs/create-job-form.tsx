@@ -58,20 +58,6 @@ export default function CreateJobForm({ categories }: { categories: Category[] }
         {state?.fieldErrors?.salary && <p style={{ color: 'red' }}>{state.fieldErrors.salary}</p>}
       </div>
       <div>
-        <label htmlFor='companyName'>company name:</label>
-        <input type='text' name='companyName' id='companyName' />
-        {state?.fieldErrors?.companyName && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.companyName}</p>
-        )}
-      </div>
-      <div>
-        <label htmlFor='companyLogo'>company logo:</label>
-        <input type='file' name='companyLogo' id='companyLogo' accept='image/*' />
-        {state?.fieldErrors?.companyLogo && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.companyLogo}</p>
-        )}
-      </div>
-      <div>
         <label htmlFor='contactEmail'>contact email:</label>
         <input type='email' name='contactEmail' id='contactEmail' />
         {state?.fieldErrors?.contactEmail && (

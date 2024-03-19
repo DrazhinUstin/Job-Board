@@ -34,20 +34,10 @@ export async function createJob(
   }
   const user = (await auth())?.user;
   if (!user) throw Error('Not authorized access. Cannot create a job');
-  const { companyLogo, ...rest } = validatedFields.data;
-  let companyLogoUrl: string | undefined;
+  const values = validatedFields.data;
   try {
-    if (companyLogo) {
-      const blob = await put(`company_logos/${companyLogo.name}`, companyLogo, {
-        access: 'public',
-      });
-      companyLogoUrl = blob.url;
-    }
-    await prisma.job.create({ data: { userId: user.id as string, companyLogoUrl, ...rest } });
+    await prisma.job.create({ data: { userId: user.id as string, ...values } });
   } catch (error) {
-    if (error instanceof BlobAccessError) {
-      return { errorMsg: 'Storage error: Failed to download a file' };
-    }
     return {
       errorMsg: 'Database error: Failed to create a job',
     };
@@ -59,7 +49,6 @@ export async function createJob(
 export async function editJob(
   id: string,
   creatorId: Job['userId'],
-  existingCompanyLogoUrl: Job['companyLogoUrl'],
   prevState: CreateJobFormState,
   formData: FormData
 ): Promise<CreateJobFormState> {
@@ -74,53 +63,30 @@ export async function editJob(
   if (!user || user.id !== creatorId) {
     throw Error('Not authorized access. Cannot edit a job');
   }
-  const { companyLogo, ...rest } = validatedFields.data;
-  let companyLogoUrl: string | undefined;
+  const data = validatedFields.data;
   try {
-    if (companyLogo) {
-      if (existingCompanyLogoUrl) {
-        await del(existingCompanyLogoUrl);
-      }
-      const blob = await put(`company_logos/${companyLogo.name}`, companyLogo, {
-        access: 'public',
-      });
-      companyLogoUrl = blob.url;
-    }
     await prisma.job.update({
       where: { id },
-      data: { ...(companyLogoUrl ? { companyLogoUrl } : {}), ...rest },
+      data,
     });
   } catch (error) {
-    if (error instanceof BlobAccessError) {
-      return { errorMsg: 'Storage error: Failed to download a file' };
-    }
     return { errorMsg: 'Database error: Failed to edit a job' };
   }
   revalidatePath('/');
   redirect('/dashboard/jobs');
 }
 
-export async function deleteJob(
-  id: string,
-  creatorId: Job['userId'],
-  companyLogoUrl: Job['companyLogoUrl']
-) {
+export async function deleteJob(id: string, creatorId: Job['userId']) {
   const user = (await auth())?.user;
   if (!user || user.id !== creatorId) {
     throw Error('Not authorized access. Cannot delete a job');
   }
   try {
-    if (companyLogoUrl) {
-      await del(companyLogoUrl);
-    }
     await prisma.job.delete({
       where: { id },
     });
     revalidatePath('/');
   } catch (error) {
-    if (error instanceof BlobAccessError) {
-      throw Error('Storage error: Failed to delete a file');
-    }
     throw Error('Database error: Failed to delete a job');
   }
 }

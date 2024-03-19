@@ -34,16 +34,13 @@ export async function fetchJobs(
         },
       },
       {
-        companyName: {
+        location: {
           contains: query,
           mode: 'insensitive',
         },
       },
       {
-        location: {
-          contains: query,
-          mode: 'insensitive',
-        },
+        user: { company: { name: { contains: query, mode: 'insensitive' } } },
       },
     ],
   };
@@ -66,12 +63,24 @@ export async function fetchJobs(
   };
   const skip = (page - 1) * jobsPerPage;
   try {
-    const jobs = await prisma.job.findMany({
-      where,
-      orderBy,
-      skip,
-      take: jobsPerPage,
-    });
+    const jobs = (
+      await prisma.job.findMany({
+        where,
+        select: {
+          id: true,
+          userId: true,
+          title: true,
+          categoryName: true,
+          type: true,
+          location: true,
+          salary: true,
+          user: { select: { company: { select: { name: true, logoUrl: true } } } },
+        },
+        orderBy,
+        skip,
+        take: jobsPerPage,
+      })
+    ).map(({ user: { company }, ...job }) => ({ ...job, company }));
     return jobs;
   } catch (error) {
     console.error('Database Error:', error);
@@ -91,16 +100,13 @@ export async function fetchJobsTotalPages(filters: JobFilters) {
         },
       },
       {
-        companyName: {
+        location: {
           contains: query,
           mode: 'insensitive',
         },
       },
       {
-        location: {
-          contains: query,
-          mode: 'insensitive',
-        },
+        user: { company: { name: { contains: query, mode: 'insensitive' } } },
       },
     ],
   };
@@ -125,13 +131,27 @@ export async function fetchJobsTotalPages(filters: JobFilters) {
 
 export async function fetchJobById(id: string) {
   try {
-    const job = await prisma.job.findUnique({ where: { id } });
-    return job;
+    const data = await prisma.job.findUnique({
+      where: { id },
+      include: {
+        user: { select: { company: { select: { id: true, name: true, logoUrl: true } } } },
+      },
+    });
+    if (data) {
+      const {
+        user: { company },
+        ...job
+      } = data;
+      return { ...job, company };
+    }
+    return data;
   } catch (error) {
     console.error('Database Error:', error);
     throw Error(`Failed to fetch job with id: ${id}`);
   }
 }
+
+export const cachedFetchJobById = cache(fetchJobById);
 
 export const companiesPerPage = 6;
 

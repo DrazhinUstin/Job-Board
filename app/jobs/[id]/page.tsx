@@ -1,11 +1,8 @@
-import { fetchJobById } from '@/app/lib/data';
+import { cachedFetchJobById } from '@/app/lib/data';
 import JobDetails from '@/app/components/jobs/job-details';
-import { cache } from 'react';
 import { Metadata } from 'next';
 import { prisma } from '@/client';
 import { notFound } from 'next/navigation';
-
-const cachedFetchJob = cache(fetchJobById);
 
 export async function generateStaticParams() {
   const allJobs = await prisma.job.findMany({ select: { id: true } });
@@ -17,7 +14,7 @@ interface Props {
 }
 
 export async function generateMetadata({ params: { id } }: Props): Promise<Metadata> {
-  const job = await cachedFetchJob(id);
+  const job = await cachedFetchJobById(id);
 
   if (!job) {
     notFound();
@@ -29,7 +26,7 @@ export async function generateMetadata({ params: { id } }: Props): Promise<Metad
 }
 
 export default async function Page({ params: { id } }: Props) {
-  const job = await cachedFetchJob(id);
+  const job = await cachedFetchJobById(id);
 
   if (!job) {
     notFound();
@@ -37,7 +34,7 @@ export default async function Page({ params: { id } }: Props) {
 
   return (
     <main>
-      <JobDetails job={job} />
+      <JobDetails {...job} />
     </main>
   );
 }

@@ -6,7 +6,7 @@ import { useFormState, useFormStatus } from 'react-dom';
 import { editJob } from '@/app/lib/actions';
 
 export default function EditJobForm({ job, categories }: { job: Job; categories: Category[] }) {
-  const editJobWithId = editJob.bind(null, job.id, job.userId, job.companyLogoUrl);
+  const editJobWithId = editJob.bind(null, job.id, job.userId);
   const [state, dispatch] = useFormState(editJobWithId, {});
   return (
     <form action={dispatch}>
@@ -63,20 +63,6 @@ export default function EditJobForm({ job, categories }: { job: Job; categories:
           defaultValue={job.salary / 100}
         />
         {state.fieldErrors?.salary && <p style={{ color: 'red' }}>{state.fieldErrors.salary}</p>}
-      </div>
-      <div>
-        <label htmlFor='companyName'>company name:</label>
-        <input type='text' name='companyName' id='companyName' defaultValue={job.companyName} />
-        {state.fieldErrors?.companyName && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.companyName}</p>
-        )}
-      </div>
-      <div>
-        <label htmlFor='companyLogo'>company logo:</label>
-        <input type='file' name='companyLogo' id='companyLogo' accept='image/*' />
-        {state.fieldErrors?.companyLogo && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.companyLogo}</p>
-        )}
       </div>
       <div>
         <label htmlFor='contactEmail'>contact email:</label>

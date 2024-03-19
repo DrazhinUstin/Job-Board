@@ -34,7 +34,7 @@ export default function Filters({ categories }: { categories: Category[] }) {
             type='text'
             name='query'
             id='query'
-            placeholder='Search by title, company name, location'
+            placeholder='Search by title, location, company name'
             defaultValue={searchParams.get('query') || undefined}
           />
         </div>

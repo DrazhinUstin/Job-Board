@@ -37,8 +37,6 @@ export const CreateJobFormSchema = z
       .gt(0, { message: 'Salary must be greater than 0' })
       .lt(1e6, { message: 'Salary must be less than 1000000' })
       .transform((val) => val * 100),
-    companyName: requiredString,
-    companyLogo: LogoSchema,
     description: z.string().max(1000).optional(),
   })
   .and(ContactsSchema);

@@ -1,28 +1,24 @@
 import { auth } from '@/auth';
-import { Job } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import Image from 'next/image';
 import DeleteJobForm from './delete-job-form';
 import Link from 'next/link';
+import { fetchJobById } from '@/app/lib/data';
 
 export default async function JobDetails({
-  job: {
-    id,
-    userId,
-    categoryName,
-    title,
-    type,
-    location,
-    description,
-    salary,
-    companyName,
-    companyLogoUrl,
-    contactEmail,
-    contactUrl,
-    createdAt,
-  },
-}: {
-  job: Job;
-}) {
+  id,
+  userId,
+  categoryName,
+  title,
+  type,
+  location,
+  description,
+  salary,
+  contactEmail,
+  contactUrl,
+  createdAt,
+  company,
+}: Exclude<Prisma.PromiseReturnType<typeof fetchJobById>, null>) {
   const user = (await auth())?.user;
   return (
     <section>
@@ -30,10 +26,9 @@ export default async function JobDetails({
       <div>
         <h3>organization:</h3>
         <div>
-          {companyLogoUrl && (
-            <Image src={companyLogoUrl} alt='company logo' width={50} height={50} />
-          )}
-          <p>{companyName}</p>
+          <Image src={company?.logoUrl || ''} alt='company logo' width={50} height={50} />
+          <p>{company?.name || 'N/A'}</p>
+          {company && <Link href={`/companies/${company.id}`}>browse</Link>}
         </div>
       </div>
       <div>
@@ -78,7 +73,7 @@ export default async function JobDetails({
       {user && user.id === userId && (
         <div>
           <Link href={`/dashboard/jobs/${id}/edit`}>edit</Link>
-          <DeleteJobForm id={id} userId={userId} companyLogoUrl={companyLogoUrl} />
+          <DeleteJobForm id={id} userId={userId} />
         </div>
       )}
     </section>

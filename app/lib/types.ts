@@ -6,8 +6,6 @@ export type CreateJobFormState = {
     categoryName?: string[];
     location?: string[];
     salary?: string[];
-    companyName?: string[];
-    companyLogo?: string[];
     contactEmail?: string[];
     contactUrl?: string[];
     description?: string[];
