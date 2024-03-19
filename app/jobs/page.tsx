@@ -1,4 +1,5 @@
 import { fetchCategories, fetchJobsTotalPages } from '../lib/data';
+import Breadcrumbs from '../components/breadcrumbs';
 import Filters from '../components/jobs/filters';
 import Order from '../components/order';
 import JobList from '../components/jobs/job-list';
@@ -29,6 +30,7 @@ export default async function Page({ searchParams }: PageProps) {
   ]);
   return (
     <main>
+      <Breadcrumbs items={[{ label: 'jobs' }]} />
       <h2>Jobs</h2>
       <p>This is a page where you can view all available jobs</p>
       <div>

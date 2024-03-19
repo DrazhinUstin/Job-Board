@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import Breadcrumbs from '../components/breadcrumbs';
 
 export const metadata: Metadata = {
   title: {
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div>
+      <Breadcrumbs items={[{ label: 'dashboard' }]} />
       <h2>Dashboard</h2>
       <div style={{ display: 'flex', gap: '0.5rem' }}>
         <Link href='/dashboard'>overview</Link>

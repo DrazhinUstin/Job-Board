@@ -1,4 +1,5 @@
 import { cachedFetchJobById } from '@/app/lib/data';
+import Breadcrumbs from '@/app/components/breadcrumbs';
 import JobDetails from '@/app/components/jobs/job-details';
 import { Metadata } from 'next';
 import { prisma } from '@/client';
@@ -34,6 +35,7 @@ export default async function Page({ params: { id } }: Props) {
 
   return (
     <main>
+      <Breadcrumbs items={[{ label: 'jobs', href: '/jobs' }, { label: job.title }]} />
       <JobDetails {...job} />
     </main>
   );

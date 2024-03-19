@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import Breadcrumbs from '@/app/components/breadcrumbs';
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const data = await cachedFetchCompanyById(params.id);
@@ -25,6 +26,7 @@ export default async function Layout({
 
   return (
     <div>
+      <Breadcrumbs items={[{ label: 'companies', href: '/companies' }, { label: data.name }]} />
       <header style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
         <Image src={data.logoUrl || ''} alt='company logo' width={50} height={50} />
         <h4>{data.name}</h4>
