@@ -1,9 +1,9 @@
 import { auth } from '@/auth';
 import { User } from 'next-auth';
-import Image from 'next/image';
-import { signOut } from '@/auth';
 import { Metadata } from 'next';
 import Breadcrumbs from '../components/breadcrumbs';
+import SignOutForm from '../components/auth/sign-out-form';
+import Avatar from '../components/avatar';
 
 export const metadata: Metadata = {
   title: 'Profile',
@@ -19,15 +19,8 @@ export default async function Page() {
       <p>id: {user.id}</p>
       <p>email: {user.email}</p>
       <p>name: {user.name}</p>
-      {user.image && <Image src={user.image} alt='avatar' width={50} height={50} />}
-      <form
-        action={async () => {
-          'use server';
-          await signOut();
-        }}
-      >
-        <button type='submit'>sign out</button>
-      </form>
+      <Avatar src={user.image} width={100} height={100} />
+      <SignOutForm />
     </main>
   );
 }
