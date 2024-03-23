@@ -41,3 +41,16 @@ export type CompanyFilters = {
 };
 
 export type CompaniesPageSearchParams = CompanyFilters & { orderBy?: string; page?: string };
+
+export type ApplicantFormState = {
+  errorMsg?: string;
+  fieldErrors?: {
+    location?: string[];
+    contactEmail?: string[];
+    contactUrl?: string[];
+    fullName?: string[];
+    githubUrl?: string[];
+    linkedinUrl?: string[];
+    bio?: string[];
+  };
+};

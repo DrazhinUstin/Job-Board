@@ -6,8 +6,8 @@ import { prisma } from '@/client';
 import { put, del, BlobAccessError } from '@vercel/blob';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { CreateJobFormSchema, CompanyFormSchema } from './schemas';
-import type { CreateJobFormState, CompanyFormState } from './types';
+import { CreateJobFormSchema, CompanyFormSchema, ApplicantFormSchema } from './schemas';
+import type { CreateJobFormState, CompanyFormState, ApplicantFormState } from './types';
 import { Job, Company } from '@prisma/client';
 
 export async function signInWithProvider(providerId: string, prevState: string | undefined) {
@@ -132,4 +132,33 @@ export async function upsertCompany(
   }
   revalidatePath('/');
   redirect('/dashboard');
+}
+
+export async function upsertApplicant(
+  prevState: ApplicantFormState,
+  formData: FormData
+): Promise<ApplicantFormState> {
+  const validatedFields = ApplicantFormSchema.safeParse(Object.fromEntries(formData.entries()));
+  if (!validatedFields.success) {
+    return {
+      errorMsg: 'Invalid fields. Fix the errors and click the submit button again',
+      fieldErrors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+  const user = (await auth())?.user;
+  if (!user) {
+    throw Error('Not authorized access. Cannot upsert an applicant');
+  }
+  const data = validatedFields.data;
+  try {
+    await prisma.applicant.upsert({
+      where: { userId: user.id },
+      update: data,
+      create: { userId: user.id as string, ...data },
+    });
+  } catch (error) {
+    return { errorMsg: 'Database error: Failed to upsert an applicant' };
+  }
+  revalidatePath('/');
+  redirect('/profile/applicant');
 }

@@ -305,3 +305,13 @@ export async function fetchUserOverview(userId: string) {
     throw Error('Failed to fetch user overview');
   }
 }
+
+export async function fetchApplicant(userId: string) {
+  try {
+    const applicant = await prisma.applicant.findUnique({ where: { userId: userId } });
+    return applicant;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw Error('Failed to fetch applicant');
+  }
+}

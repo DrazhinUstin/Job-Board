@@ -48,3 +48,13 @@ export const CompanyFormSchema = z.object({
   description: z.string().max(1000).optional(),
   websiteUrl: z.string().url().optional().or(z.literal('')),
 });
+
+export const ApplicantFormSchema = z
+  .object({
+    fullName: requiredString,
+    location: z.string().max(200).optional(),
+    githubUrl: z.string().url().optional().or(z.literal('')),
+    linkedinUrl: z.string().url().optional().or(z.literal('')),
+    bio: z.string().max(1000).optional(),
+  })
+  .and(ContactsSchema);
