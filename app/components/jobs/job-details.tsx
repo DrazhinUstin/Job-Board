@@ -1,6 +1,7 @@
 import { auth } from '@/auth';
 import { Prisma } from '@prisma/client';
 import Image from 'next/image';
+import ApplyJobForm from './apply-job-form';
 import DeleteJobForm from './delete-job-form';
 import Link from 'next/link';
 import { fetchJobById } from '@/app/lib/data';
@@ -23,6 +24,7 @@ export default async function JobDetails({
   return (
     <section>
       <h2>{title}</h2>
+      {user?.id !== userId && <ApplyJobForm jobId={id} />}
       <div>
         <h3>organization:</h3>
         <div>
