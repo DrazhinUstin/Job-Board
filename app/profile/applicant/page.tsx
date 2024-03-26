@@ -1,24 +1,24 @@
 import ApplicantDetails from '@/app/components/applicant/details';
-import { fetchApplicant } from '@/app/lib/data';
+import { cachedFetchApplicant } from '@/app/lib/data';
 import { auth } from '@/auth';
 import Link from 'next/link';
-import { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Applicant',
-};
 
 export default async function Page() {
   const user = (await auth())?.user;
-  const applicant = await fetchApplicant(user?.id as string);
+  const applicant = await cachedFetchApplicant(user?.id as string);
+
+  if (!applicant) {
+    return (
+      <main>
+        <p>You have no applicant profile yet...</p>
+        <Link href='/profile/applicant/edit'>create applicant profile</Link>
+      </main>
+    );
+  }
+
   return (
     <main>
-      <h2>applicant profile</h2>
-      {applicant ? (
-        <ApplicantDetails {...applicant} />
-      ) : (
-        <p>You have no applicant profile yet...</p>
-      )}
+      <ApplicantDetails {...applicant} />
       <Link href='/profile/applicant/edit'>edit</Link>
     </main>
   );

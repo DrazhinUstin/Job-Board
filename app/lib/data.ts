@@ -24,7 +24,7 @@ export async function fetchJobs(
   page: number = 1
 ) {
   noStore();
-  const { query, categoryName, type, userId, companyId } = filters;
+  const { query, categoryName, type, userId, companyId, applicantUserId } = filters;
   const queryInput: Prisma.JobWhereInput = {
     OR: [
       {
@@ -59,6 +59,7 @@ export async function fetchJobs(
       type ? typeInput : {},
       userId ? { userId } : {},
       companyId ? { user: { company: { id: companyId } } } : {},
+      applicantUserId ? { applicants: { some: { userId: applicantUserId } } } : {},
     ],
   };
   const skip = (page - 1) * jobsPerPage;
@@ -90,7 +91,7 @@ export async function fetchJobs(
 
 export async function fetchJobsTotalPages(filters: JobFilters) {
   noStore();
-  const { query, categoryName, type, userId, companyId } = filters;
+  const { query, categoryName, type, userId, companyId, applicantUserId } = filters;
   const queryInput: Prisma.JobWhereInput = {
     OR: [
       {
@@ -119,6 +120,7 @@ export async function fetchJobsTotalPages(filters: JobFilters) {
           type ? { type } : {},
           userId ? { userId } : {},
           companyId ? { user: { company: { id: companyId } } } : {},
+          applicantUserId ? { applicants: { some: { userId: applicantUserId } } } : {},
         ],
       },
     });
@@ -160,6 +162,7 @@ export async function fetchCompanies(
   orderBy: Prisma.CompanyOrderByWithRelationInput = companiesOrder[0].value,
   page: number = 1
 ) {
+  noStore();
   const { query } = filters;
   const queryInput: Prisma.CompanyWhereInput = {
     OR: [
@@ -207,6 +210,7 @@ export async function fetchCompanies(
 }
 
 export async function fetchCompaniesTotalPages(filters: CompanyFilters) {
+  noStore();
   const { query } = filters;
   const queryInput: Prisma.CompanyWhereInput = {
     OR: [
@@ -283,6 +287,7 @@ export async function fetchUserCompany(userId: string) {
 }
 
 export async function fetchUserOverview(userId: string) {
+  noStore();
   try {
     const data = await prisma.user.findUnique({
       where: { id: userId },
@@ -315,3 +320,5 @@ export async function fetchApplicant(userId: string) {
     throw Error('Failed to fetch applicant');
   }
 }
+
+export const cachedFetchApplicant = cache(fetchApplicant);

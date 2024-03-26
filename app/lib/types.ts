@@ -18,9 +18,10 @@ export type JobFilters = {
   type?: string;
   userId?: string;
   companyId?: string;
+  applicantUserId?: string;
 };
 
-export type JobsPageSearchParams = Omit<JobFilters, 'userId' | 'companyId'> & {
+export type JobsPageSearchParams = Omit<JobFilters, 'userId' | 'companyId' | 'applicantUserId'> & {
   orderBy?: string;
   page?: string;
 };
