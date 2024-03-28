@@ -59,7 +59,7 @@ export async function fetchJobs(
       type ? typeInput : {},
       userId ? { userId } : {},
       companyId ? { user: { company: { id: companyId } } } : {},
-      applicantUserId ? { applicants: { some: { userId: applicantUserId } } } : {},
+      applicantUserId ? { applicants: { some: { applicant: { userId: applicantUserId } } } } : {},
     ],
   };
   const skip = (page - 1) * jobsPerPage;
@@ -120,7 +120,9 @@ export async function fetchJobsTotalPages(filters: JobFilters) {
           type ? { type } : {},
           userId ? { userId } : {},
           companyId ? { user: { company: { id: companyId } } } : {},
-          applicantUserId ? { applicants: { some: { userId: applicantUserId } } } : {},
+          applicantUserId
+            ? { applicants: { some: { applicant: { userId: applicantUserId } } } }
+            : {},
         ],
       },
     });
@@ -294,9 +296,7 @@ export async function fetchUserOverview(userId: string) {
       select: {
         company: { select: { name: true, logoUrl: true } },
         jobs: {
-          select: { title: true, salary: true, createdAt: true },
-          orderBy: { createdAt: 'desc' },
-          take: 1,
+          select: { _count: { select: { applicants: true } } },
         },
         _count: { select: { jobs: true } },
       },
@@ -304,7 +304,11 @@ export async function fetchUserOverview(userId: string) {
     if (!data) {
       throw Error('User was not found');
     }
-    return { company: data.company, latestJob: data.jobs[0], totalJobs: data._count.jobs };
+    return {
+      company: data.company,
+      totalApplicants: data.jobs.reduce((acc, { _count }) => acc + _count.applicants, 0),
+      totalJobs: data._count.jobs,
+    };
   } catch (error) {
     console.error('Database Error:', error);
     throw Error('Failed to fetch user overview');

@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 export default async function Overview() {
   const user = (await auth())?.user;
-  const { company, latestJob, totalJobs } = await fetchUserOverview(user?.id as string);
+  const { company, totalJobs, totalApplicants } = await fetchUserOverview(user?.id as string);
   return (
     <div>
       <div>
@@ -25,15 +25,8 @@ export default async function Overview() {
         <p>{totalJobs}</p>
       </div>
       <div>
-        <h3>Latest created job:</h3>
-        {latestJob ? (
-          <p>
-            {latestJob.title} <span style={{ color: 'green' }}>${latestJob.salary / 100}</span>{' '}
-            <span style={{ color: 'red' }}>{latestJob.createdAt.toDateString()}</span>
-          </p>
-        ) : (
-          <p>No job yet</p>
-        )}
+        <h3>Total applicants:</h3>
+        <p>{totalApplicants}</p>
       </div>
     </div>
   );

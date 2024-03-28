@@ -7,7 +7,7 @@ export default async function ApplyJobForm({ jobId }: { jobId: string }) {
   const user = (await auth())?.user;
   const applicant = await prisma.applicant.findUnique({
     where: { userId: user?.id },
-    select: { jobs: { where: { id: jobId }, select: { id: true } } },
+    select: { jobs: { where: { jobId } } },
   });
   const isJobAppliedByUser = !!applicant?.jobs[0];
 
@@ -23,7 +23,19 @@ export default async function ApplyJobForm({ jobId }: { jobId: string }) {
       await prisma.applicant.update({
         where: { userId: user.id },
         data: {
-          jobs: isJobAppliedByUser ? { disconnect: { id: jobId } } : { connect: { id: jobId } },
+          jobs: isJobAppliedByUser
+            ? {
+                delete: {
+                  applicantId_jobId: { applicantId: applicant.jobs[0].applicantId, jobId },
+                },
+              }
+            : {
+                create: {
+                  job: {
+                    connect: { id: jobId },
+                  },
+                },
+              },
         },
       });
       revalidatePath('/');

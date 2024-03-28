@@ -59,7 +59,7 @@ model Category {
 }
 
 model Job {
-  id           String      @id @default(cuid())
+  id           String             @id @default(cuid())
   userId       String
   categoryName String
   title        String
@@ -69,16 +69,16 @@ model Job {
   salary       Int
   contactEmail String?
   contactUrl   String?
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  category     Category    @relation(fields: [categoryName], references: [name])
-  applicants   Applicant[]
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  user         User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category     Category           @relation(fields: [categoryName], references: [name])
+  applicants   ApplicantsOnJobs[]
 }
 
 model Applicant {
-  id           String  @id @default(cuid())
-  userId       String  @unique
+  id           String             @id @default(cuid())
+  userId       String             @unique
   fullName     String
   location     String?
   contactEmail String?
@@ -86,6 +86,16 @@ model Applicant {
   githubUrl    String?
   linkedinUrl  String?
   bio          String?
-  user         User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  jobs         Job[]
+  user         User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  jobs         ApplicantsOnJobs[]
+}
+
+model ApplicantsOnJobs {
+  applicant   Applicant @relation(fields: [applicantId], references: [id], onDelete: Cascade)
+  applicantId String
+  job         Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  jobId       String
+  appliedAt   DateTime  @default(now())
+
+  @@id([applicantId, jobId])
 }
