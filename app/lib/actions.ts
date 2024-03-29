@@ -8,7 +8,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { CreateJobFormSchema, CompanyFormSchema, ApplicantFormSchema } from './schemas';
 import type { CreateJobFormState, CompanyFormState, ApplicantFormState } from './types';
-import { Job, Company } from '@prisma/client';
+import { Job, Company, ApplicantsOnJobs } from '@prisma/client';
 
 export async function signInWithProvider(providerId: string, prevState: string | undefined) {
   try {
@@ -161,4 +161,22 @@ export async function upsertApplicant(
   }
   revalidatePath('/');
   redirect('/profile/applicant');
+}
+
+export async function deleteApplicantOnJob(
+  applicantId: ApplicantsOnJobs['applicantId'],
+  jobId: ApplicantsOnJobs['jobId']
+) {
+  const user = (await auth())?.user;
+  if (!user) {
+    throw Error('Not authorized access. Cannot delete an applicant on job');
+  }
+  try {
+    await prisma.applicantsOnJobs.delete({
+      where: { applicantId_jobId: { applicantId, jobId } },
+    });
+    revalidatePath('/');
+  } catch (error) {
+    throw Error('Database error: Failed to delete an applicant on job');
+  }
 }

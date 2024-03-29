@@ -24,7 +24,7 @@ export default async function JobDetails({
   return (
     <section>
       <h2>{title}</h2>
-      {user?.id !== userId && <ApplyJobForm jobId={id} />}
+      {user && user?.id !== userId && <ApplyJobForm jobId={id} />}
       <div>
         <h3>organization:</h3>
         <div>

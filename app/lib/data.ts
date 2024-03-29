@@ -316,7 +316,7 @@ export async function fetchUserOverview(userId: string) {
   }
 }
 
-export const applicantsOnJobsPerPage = 2;
+export const applicantsOnJobsPerPage = 6;
 
 export async function fetchApplicantsOnJobs(
   filters: ApplicantsOnJobsFilters,

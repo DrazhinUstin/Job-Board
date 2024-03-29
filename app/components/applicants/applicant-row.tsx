@@ -1,5 +1,6 @@
 import { fetchApplicantsOnJobs } from '@/app/lib/data';
 import { Prisma } from '@prisma/client';
+import DeleteApplicantForm from './delete-applicant-form';
 
 export default function ApplicantRow({
   applicant: { id: applicantId, fullName },
@@ -21,7 +22,7 @@ export default function ApplicantRow({
         <p>contact</p>
       </div>
       <div>
-        <p>reject</p>
+        <DeleteApplicantForm applicantId={applicantId} jobId={jobId} />
       </div>
     </article>
   );
