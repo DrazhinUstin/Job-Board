@@ -17,6 +17,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div style={{ display: 'flex', gap: '0.5rem' }}>
         <Link href='/dashboard'>overview</Link>
         <Link href='/dashboard/jobs'>manage jobs</Link>
+        <Link href='/dashboard/applicants'>manage applicants</Link>
         <Link href='/dashboard/company'>manage company</Link>
       </div>
       {children}

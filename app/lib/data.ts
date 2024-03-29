@@ -1,9 +1,10 @@
 import { prisma } from '@/client';
 import { Prisma } from '@prisma/client';
 import { unstable_noStore as noStore } from 'next/cache';
-import type { JobFilters, CompanyFilters } from './types';
+import type { JobFilters, CompanyFilters, ApplicantsOnJobsFilters } from './types';
 import { orderOptions } from './job-order-options';
 import { orderOptions as companiesOrder } from './company-order-options';
+import { orderOptions as applicantsOnJobsOrder } from './applicants-on-jobs-order-options';
 import { cache } from 'react';
 
 export async function fetchCategories() {
@@ -312,6 +313,63 @@ export async function fetchUserOverview(userId: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw Error('Failed to fetch user overview');
+  }
+}
+
+export const applicantsOnJobsPerPage = 2;
+
+export async function fetchApplicantsOnJobs(
+  filters: ApplicantsOnJobsFilters,
+  orderBy: Prisma.ApplicantsOnJobsOrderByWithRelationInput = applicantsOnJobsOrder[0].value,
+  page: number = 1
+) {
+  noStore();
+  const { userId } = filters;
+  const where: Prisma.ApplicantsOnJobsWhereInput = {
+    job: { userId },
+  };
+  const skip = (page - 1) * applicantsOnJobsPerPage;
+  try {
+    const data = await prisma.applicantsOnJobs.findMany({
+      where,
+      select: {
+        appliedAt: true,
+        applicant: {
+          select: {
+            id: true,
+            fullName: true,
+          },
+        },
+        job: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
+      },
+      orderBy,
+      skip,
+      take: applicantsOnJobsPerPage,
+    });
+    return data;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw Error('Failed to fetch applicants on jobs');
+  }
+}
+
+export async function fetchApplicantsOnJobsTotalPages(filters: ApplicantsOnJobsFilters) {
+  noStore();
+  const { userId } = filters;
+  const where: Prisma.ApplicantsOnJobsWhereInput = {
+    job: { userId },
+  };
+  try {
+    const count = await prisma.applicantsOnJobs.count({ where });
+    return Math.ceil(count / applicantsOnJobsPerPage);
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw Error('Failed to fetch applicants on jobs count');
   }
 }
 

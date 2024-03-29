@@ -7,7 +7,10 @@ interface Props {
   options: {
     id: number;
     label: string;
-    value: Prisma.JobOrderByWithRelationInput | Prisma.CompanyOrderByWithRelationInput;
+    value:
+      | Prisma.JobOrderByWithRelationInput
+      | Prisma.CompanyOrderByWithRelationInput
+      | Prisma.ApplicantsOnJobsOrderByWithRelationInput;
   }[];
 }
 

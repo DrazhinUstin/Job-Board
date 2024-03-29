@@ -55,3 +55,12 @@ export type ApplicantFormState = {
     bio?: string[];
   };
 };
+
+export type ApplicantsOnJobsFilters = {
+  userId: string;
+};
+
+export type ApplicantsOnJobsPageSearchParams = Omit<ApplicantsOnJobsFilters, 'userId'> & {
+  orderBy?: string;
+  page?: string;
+};
