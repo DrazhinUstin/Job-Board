@@ -50,6 +50,7 @@ export type ApplicantFormState = {
     contactEmail?: string[];
     contactUrl?: string[];
     fullName?: string[];
+    photo?: string[];
     githubUrl?: string[];
     linkedinUrl?: string[];
     bio?: string[];

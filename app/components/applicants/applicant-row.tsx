@@ -2,15 +2,17 @@ import { fetchApplicantsOnJobs } from '@/app/lib/data';
 import { Prisma } from '@prisma/client';
 import Link from 'next/link';
 import DeleteApplicantForm from './delete-applicant-form';
+import Avatar from '../avatar';
 
 export default function ApplicantRow({
-  applicant: { id: applicantId, fullName },
+  applicant: { id: applicantId, fullName, photoUrl },
   job: { id: jobId, title },
   appliedAt,
 }: Prisma.PromiseReturnType<typeof fetchApplicantsOnJobs>[0]) {
   return (
-    <article style={{ display: 'flex', gap: '0.5rem' }}>
-      <div>
+    <article style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <Avatar src={photoUrl} width={40} height={40} />
         <h4>{fullName}</h4>
       </div>
       <div>

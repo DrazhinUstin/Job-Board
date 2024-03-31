@@ -19,7 +19,6 @@ export default async function Page() {
   return (
     <main>
       <ApplicantDetails {...applicant} />
-      <Link href='/profile/applicant/edit'>edit</Link>
     </main>
   );
 }

@@ -3,12 +3,12 @@
 import { signIn, auth } from '@/auth';
 import { AuthError } from 'next-auth';
 import { prisma } from '@/client';
-import { put, del, BlobAccessError } from '@vercel/blob';
+import { put, del, BlobAccessError, BlobStoreSuspendedError } from '@vercel/blob';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { CreateJobFormSchema, CompanyFormSchema, ApplicantFormSchema } from './schemas';
 import type { CreateJobFormState, CompanyFormState, ApplicantFormState } from './types';
-import { Job, Company, ApplicantsOnJobs } from '@prisma/client';
+import { Job, Company, Applicant, ApplicantsOnJobs } from '@prisma/client';
 
 export async function signInWithProvider(providerId: string, prevState: string | undefined) {
   try {
@@ -128,6 +128,9 @@ export async function upsertCompany(
     if (error instanceof BlobAccessError) {
       return { errorMsg: 'Storage error: Failed to download a file' };
     }
+    if (error instanceof BlobStoreSuspendedError) {
+      return { errorMsg: 'Storage error: The store has been suspended' };
+    }
     return { errorMsg: 'Database error: Failed to upsert company' };
   }
   revalidatePath('/');
@@ -135,6 +138,7 @@ export async function upsertCompany(
 }
 
 export async function upsertApplicant(
+  existingPhotoUrl: Applicant['photoUrl'],
   prevState: ApplicantFormState,
   formData: FormData
 ): Promise<ApplicantFormState> {
@@ -149,14 +153,28 @@ export async function upsertApplicant(
   if (!user) {
     throw Error('Not authorized access. Cannot upsert an applicant');
   }
-  const data = validatedFields.data;
+  const { photo, ...rest } = validatedFields.data;
+  let photoUrl: Applicant['photoUrl'] = null;
   try {
+    if (photo) {
+      if (existingPhotoUrl) {
+        await del(existingPhotoUrl);
+      }
+      const blob = await put(`applicants/photos/${photo.name}`, photo, { access: 'public' });
+      photoUrl = blob.url;
+    }
     await prisma.applicant.upsert({
       where: { userId: user.id },
-      update: data,
-      create: { userId: user.id as string, ...data },
+      update: { ...(photoUrl ? { photoUrl } : {}), ...rest },
+      create: { userId: user.id as string, photoUrl, ...rest },
     });
   } catch (error) {
+    if (error instanceof BlobAccessError) {
+      return { errorMsg: 'Storage error: Failed to download a file' };
+    }
+    if (error instanceof BlobStoreSuspendedError) {
+      return { errorMsg: 'Storage error: The store has been suspended' };
+    }
     return { errorMsg: 'Database error: Failed to upsert an applicant' };
   }
   revalidatePath('/');

@@ -80,6 +80,7 @@ model Applicant {
   id           String             @id @default(cuid())
   userId       String             @unique
   fullName     String
+  photoUrl     String?
   location     String?
   contactEmail String?
   contactUrl   String?

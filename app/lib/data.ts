@@ -338,6 +338,7 @@ export async function fetchApplicantsOnJobs(
           select: {
             id: true,
             fullName: true,
+            photoUrl: true,
           },
         },
         job: {

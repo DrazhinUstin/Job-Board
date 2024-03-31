@@ -52,6 +52,7 @@ export const CompanyFormSchema = z.object({
 export const ApplicantFormSchema = z
   .object({
     fullName: requiredString,
+    photo: LogoSchema,
     location: z.string().max(200).optional(),
     githubUrl: z.string().url().optional().or(z.literal('')),
     linkedinUrl: z.string().url().optional().or(z.literal('')),

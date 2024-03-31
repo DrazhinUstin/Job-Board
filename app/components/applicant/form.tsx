@@ -6,7 +6,8 @@ import { useFormState } from 'react-dom';
 import { upsertApplicant } from '@/app/lib/actions';
 
 export default function ApplicantForm({ applicant }: { applicant: Applicant | null }) {
-  const [state, dispatch] = useFormState(upsertApplicant, {});
+  const upsertApplicantWithPhotoUrl = upsertApplicant.bind(null, applicant?.photoUrl || null);
+  const [state, dispatch] = useFormState(upsertApplicantWithPhotoUrl, {});
   return (
     <form action={dispatch}>
       <div>
@@ -15,6 +16,11 @@ export default function ApplicantForm({ applicant }: { applicant: Applicant | nu
         {state.fieldErrors?.fullName && (
           <p style={{ color: 'red' }}>{state.fieldErrors.fullName}</p>
         )}
+      </div>
+      <div>
+        <label htmlFor='photo'>photo:</label>
+        <input type='file' name='photo' id='photo' accept='image/*' />
+        {state.fieldErrors?.photo && <p style={{ color: 'red' }}>{state.fieldErrors.photo}</p>}
       </div>
       <div>
         <label htmlFor='location'>location:</label>

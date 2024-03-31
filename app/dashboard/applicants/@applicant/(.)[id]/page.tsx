@@ -1,3 +1,4 @@
+import ContactLink from '@/app/components/applicant/contact-link';
 import ApplicantDetails from '@/app/components/applicant/details';
 import Avatar from '@/app/components/avatar';
 import Modal from '@/app/components/modal';
@@ -15,12 +16,12 @@ export default async function Page({ params: { id } }: Props) {
     notFound();
   }
 
-  const { fullName, linkedinUrl, githubUrl } = applicant;
+  const { photoUrl, fullName, linkedinUrl, githubUrl } = applicant;
   return (
     <Modal>
       <main>
         <div>
-          <Avatar width={50} height={50} />
+          <Avatar src={photoUrl} width={50} height={50} />
           <h4>{fullName}</h4>
           <p>
             {linkedinUrl && (
@@ -34,6 +35,7 @@ export default async function Page({ params: { id } }: Props) {
               </a>
             )}
           </p>
+          <ContactLink {...applicant} />
         </div>
         <ApplicantDetails {...applicant} />
       </main>

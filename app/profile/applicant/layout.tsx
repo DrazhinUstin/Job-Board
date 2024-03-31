@@ -19,11 +19,11 @@ export default async function Layout({ children }: { children: React.ReactNode }
     return <div>{children}</div>;
   }
 
-  const { fullName, linkedinUrl, githubUrl } = applicant;
+  const { photoUrl, fullName, linkedinUrl, githubUrl } = applicant;
   return (
     <div>
       <div>
-        <Avatar src={user?.image} width={50} height={50} />
+        <Avatar src={photoUrl} width={50} height={50} />
         <h4>{fullName}</h4>
         <p>
           {linkedinUrl && (
@@ -37,6 +37,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
             </a>
           )}
         </p>
+        <Link href='/profile/applicant/edit'>edit</Link>
       </div>
       <div style={{ display: 'flex', gap: '0.5rem' }}>
         <Link href='/profile/applicant'>overview</Link>
