@@ -373,6 +373,18 @@ export async function fetchApplicantsOnJobsTotalPages(filters: ApplicantsOnJobsF
   }
 }
 
+export async function fetchApplicantById(id: string) {
+  try {
+    const applicant = await prisma.applicant.findUnique({ where: { id } });
+    return applicant;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw Error('Failed to fetch applicant');
+  }
+}
+
+export const cachedFetchApplicantById = cache(fetchApplicantById);
+
 export async function fetchApplicant(userId: string) {
   try {
     const applicant = await prisma.applicant.findUnique({ where: { userId: userId } });

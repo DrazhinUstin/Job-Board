@@ -1,5 +1,6 @@
 import { fetchApplicantsOnJobs } from '@/app/lib/data';
 import { Prisma } from '@prisma/client';
+import Link from 'next/link';
 import DeleteApplicantForm from './delete-applicant-form';
 
 export default function ApplicantRow({
@@ -19,7 +20,11 @@ export default function ApplicantRow({
         <p>{appliedAt.toDateString()}</p>
       </div>
       <div>
-        <p>contact</p>
+        <p>
+          <Link href={`/dashboard/applicants/${applicantId}`} scroll={false}>
+            browse
+          </Link>
+        </p>
       </div>
       <div>
         <DeleteApplicantForm applicantId={applicantId} jobId={jobId} />
