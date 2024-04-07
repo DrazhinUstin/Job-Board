@@ -9,7 +9,7 @@ export default function SignOutForm() {
         await signOut();
       }}
     >
-      <FormSubmitBtn>sign out</FormSubmitBtn>
+      <FormSubmitBtn className='btn-alert'>sign out</FormSubmitBtn>
     </form>
   );
 }
