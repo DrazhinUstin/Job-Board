@@ -9,11 +9,26 @@ import { cache } from 'react';
 
 export async function fetchCategories() {
   try {
-    const categories = await prisma.category.findMany();
+    const categories = await prisma.category.findMany({ orderBy: { name: 'asc' } });
     return categories;
   } catch (error) {
     console.error('Database Error:', error);
     throw Error('Failed to fetch categories');
+  }
+}
+
+export async function fetchCategoriesWithJobsCount() {
+  try {
+    const categories = (
+      await prisma.category.findMany({
+        include: { _count: { select: { jobs: true } } },
+        orderBy: { name: 'asc' },
+      })
+    ).map(({ _count, ...category }) => ({ ...category, jobsCount: _count.jobs }));
+    return categories;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw Error('Failed to fetch categories with jobs count');
   }
 }
 

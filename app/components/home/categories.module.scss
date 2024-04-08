@@ -1,0 +1,46 @@
+@use '@/app/scss/mixins';
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 4rem;
+
+  @include mixins.breakpoint-down(md) {
+    gap: 2rem;
+  }
+}
+
+.card {
+  padding: 1rem 0.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  background-color: var(--color-primary);
+  color: var(--text-color);
+  text-align: center;
+  transition: var(--transition);
+
+  &:hover {
+    transform: translateY(-0.5rem);
+  }
+
+  &>span {
+    width: 4rem;
+    height: 4rem;
+    display: grid;
+    place-items: center;
+    margin: auto;
+    border: 2px solid var(--color-primary-3);
+    border-radius: 50%;
+    background-color: var(--color-white);
+    color: var(--color-primary-3);
+    font-size: 2rem;
+  }
+
+  h4 {
+    margin: 0.5rem 0;
+  }
+
+  p {
+    color: var(--color-primary-3);
+  }
+}
