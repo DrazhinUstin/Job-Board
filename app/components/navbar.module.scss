@@ -1,3 +1,5 @@
+@use '@/app/scss/mixins';
+
 .nav {
   position: sticky;
   top: 0;
@@ -22,6 +24,88 @@
   a {
     color: var(--color-white);
     text-transform: capitalize;
+  }
+
+  @include mixins.breakpoint-down(md) {
+    position: fixed;
+    top: calc(0 - var(--navbar-height));
+    left: 0;
+    bottom: 0;
+    width: 75%;
+    height: calc(100% - var(--navbar-height));
+    transform: translateX(-100%);
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: var(--color-white);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    transition-property: transform;
+
+    a {
+      color: var(--color-primary-3);
+      opacity: 0;
+    }
+
+    &.open {
+      transform: translateX(0);
+    }
+  }
+}
+
+.button {
+  position: relative;
+  width: 1.5rem;
+  height: 1rem;
+  display: none;
+  padding: 0;
+  border: 0;
+  place-items: center;
+  background-color: inherit;
+
+  span {
+    width: 100%;
+    height: 2px;
+    display: block;
+    background-color: var(--color-white);
+    transition: var(--transition);
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: inherit;
+      height: inherit;
+      background-color: var(--color-white);
+      transition: inherit;
+    }
+
+    &::after {
+      top: unset;
+      bottom: 0;
+    }
+  }
+
+  &.active {
+    span {
+      background-color: transparent;
+
+      &::before {
+        top: unset;
+        transform: rotate(225deg);
+      }
+
+      &::after {
+        bottom: unset;
+        transform: rotate(-225deg);
+      }
+    }
+  }
+
+  @include mixins.breakpoint-down(md) {
+    display: grid;
+    order: -1;
   }
 }
 

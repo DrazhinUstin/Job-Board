@@ -28,7 +28,8 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
-  --transition: 0.25s ease-in-out all;
+  --delay: 0.25s;
+  --transition: var(--delay) ease-in-out all;
 }
 
 html {
@@ -179,4 +180,14 @@ svg {
 .btn-alert {
   @extend .btn;
   background-color: var(--color-red);
+}
+
+@keyframes appearance {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
