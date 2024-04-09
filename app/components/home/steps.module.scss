@@ -1,0 +1,92 @@
+@use '@/app/scss/mixins';
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+
+  @include mixins.breakpoint-down(lg) {
+    grid-template-columns: unset;
+  }
+}
+
+.list {
+  --size: 2rem;
+  display: grid;
+  row-gap: var(--size);
+
+  li {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 1rem;
+    cursor: pointer;
+
+    &>span {
+      width: var(--size);
+      height: var(--size);
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background-color: var(--color-primary);
+      transition: var(--transition);
+    }
+
+    h4 {
+      margin-bottom: 1rem;
+      transition: var(--transition);
+    }
+
+    &.active {
+      cursor: default;
+
+      &>span {
+        background-color: var(--color-primary-2);
+        color: var(--color-white);
+      }
+
+      h4 {
+        color: var(--color-primary-2);
+      }
+    }
+
+    &:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: var(--size);
+      left: calc(var(--size) / 2);
+      height: 100%;
+      border-left: 1px dashed var(--color-primary-2);
+    }
+  }
+}
+
+.slides {
+  position: relative;
+
+  img {
+    position: absolute;
+    right: 0;
+    max-height: 100%;
+    width: auto;
+    visibility: hidden;
+    opacity: 0;
+    transition: var(--transition);
+
+    &.active {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  @include mixins.breakpoint-down(lg) {
+    order: -1;
+    height: 320px;
+    display: grid;
+    place-items: center;
+
+    img {
+      right: unset;
+    }
+  }
+}
