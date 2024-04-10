@@ -16,7 +16,7 @@
   --background-color: var(--color-white);
   --background-color-2: var(--color-off-white);
   --text-color: var(--color-black);
-  --shadow: 0 2px 4px 1px rgba(0, 0, 0, 0.1);
+  --shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
   --border-radius: 0.25rem;
   --letter-spacing: 1px;
   --small-text: 0.875rem;
@@ -134,13 +134,18 @@ svg {
 .main {
   max-width: var(--max-width);
   width: var(--fluid-width);
+  min-height: calc(100vh - var(--navbar-height));
   margin: 0 auto;
   padding: 4rem 0;
+
+  .section:first-child,
+  .section:last-child {
+    margin: 0;
+  }
 }
 
 .section {
-  min-height: 50vh;
-  padding: 4rem 0;
+  margin: 4rem 0;
 }
 
 .section-alt {
@@ -157,6 +162,33 @@ svg {
 .section-title {
   margin-bottom: 4rem;
   text-align: center;
+}
+
+.form {
+  display: grid;
+  row-gap: 1rem;
+
+  &-title {
+    text-align: center
+  }
+
+  &-error {
+    margin-top: 0.5rem;
+    color: var(--color-red);
+  }
+}
+
+.auth-form {
+  @extend .form;
+  max-width: 400px;
+  width: 100%;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+
+  button {
+    width: 100%;
+  }
 }
 
 .btn {
@@ -177,6 +209,14 @@ svg {
   }
 }
 
+.btn-flex {
+  @extend .btn;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+
 .btn-alt {
   @extend .btn;
   background-color: var(--color-black);
@@ -185,6 +225,11 @@ svg {
 .btn-alert {
   @extend .btn;
   background-color: var(--color-red);
+}
+
+.grid-center {
+  display: grid;
+  place-items: center;
 }
 
 @keyframes appearance {

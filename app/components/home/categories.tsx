@@ -6,7 +6,7 @@ import CategoryCard from './category-card';
 export default async function Categories() {
   const categories = await fetchCategoriesWithJobsCount();
   return (
-    <section className='section section-center'>
+    <section className='section'>
       <h2 className='section-title'>Browse Jobs By Categories</h2>
       <div className={styles.container}>
         {categories.map((category) => {
