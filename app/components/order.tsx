@@ -2,6 +2,7 @@
 
 import { Prisma } from '@prisma/client';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
+import styles from './order.module.scss';
 
 interface Props {
   options: {
@@ -27,7 +28,7 @@ export default function Order({ options }: Props) {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <label htmlFor='orderBy'>order by:</label>
       <select
         name='orderBy'

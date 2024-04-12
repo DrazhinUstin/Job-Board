@@ -9,6 +9,7 @@ import Pagination from '../components/pagination';
 import { Metadata } from 'next';
 import { JobsPageSearchParams } from '../lib/types';
 import { orderOptions } from '../lib/job-order-options';
+import styles from './page.module.scss';
 
 export const metadata: Metadata = {
   title: 'Jobs',
@@ -29,17 +30,18 @@ export default async function Page({ searchParams }: PageProps) {
     fetchJobsTotalPages(filters),
   ]);
   return (
-    <main>
+    <main className='main'>
       <Breadcrumbs items={[{ label: 'jobs' }]} />
-      <h2>Jobs</h2>
-      <p>This is a page where you can view all available jobs</p>
-      <div>
+      <h2 className='section-title'>Jobs</h2>
+      <div className={styles.container}>
         <Filters categories={categories} />
-        <Order options={orderOptions} />
-        <Suspense key={JSON.stringify(searchParams)} fallback={<h2>LOADING...</h2>}>
-          <JobList filters={filters} orderBy={parsedOrderBy} currentPage={currentPage} />
-        </Suspense>
-        <Pagination currentPage={currentPage} totalPages={totalPages} />
+        <div>
+          <Order options={orderOptions} />
+          <Suspense key={JSON.stringify(searchParams)} fallback={<h2>LOADING...</h2>}>
+            <JobList filters={filters} orderBy={parsedOrderBy} currentPage={currentPage} />
+          </Suspense>
+          <Pagination currentPage={currentPage} totalPages={totalPages} />
+        </div>
       </div>
     </main>
   );

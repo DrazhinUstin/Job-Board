@@ -4,6 +4,8 @@ import { auth } from '@/auth';
 import Link from 'next/link';
 import DeleteJobForm from './delete-job-form';
 import { fetchJobs } from '@/app/lib/data';
+import { FaBriefcase, FaLocationDot, FaMoneyBillWave, FaPenToSquare, FaEye } from 'react-icons/fa6';
+import styles from './job-card.module.scss';
 
 export default async function JobCard({
   id,
@@ -17,23 +19,45 @@ export default async function JobCard({
 }: Prisma.PromiseReturnType<typeof fetchJobs>[0]) {
   const user = (await auth())?.user;
   return (
-    <article style={{ width: '400px', border: '1px solid gray' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <Image src={company?.logoUrl || ''} alt='company logo' width={50} height={50} />
-        <p>{company?.name || 'N/A'}</p>
-      </div>
-      <h4>{title}</h4>
-      <p style={{ color: 'green' }}>{categoryName}</p>
-      <p style={{ color: 'orange' }}>{type}</p>
-      <p style={{ color: 'royalblue' }}>{location}</p>
-      <p>{salary / 100}$</p>
-      <Link href={`/jobs/${id}`}>browse job</Link>
-      {user && user.id === userId && (
+    <article className={styles.card}>
+      <header>
+        {company && <Image src={company.logoUrl || ''} alt='company logo' width={50} height={50} />}
         <div>
-          <Link href={`/dashboard/jobs/${id}/edit`}>edit</Link>
-          <DeleteJobForm id={id} userId={userId} />
+          <h4>{title}</h4>
+          {company && <p>{company.name}</p>}
         </div>
-      )}
+      </header>
+      <ul className={styles.info}>
+        <li>{categoryName}</li>
+      </ul>
+      <ul className={styles.brief}>
+        <li>
+          <FaBriefcase />
+          {type}
+        </li>
+        {location && (
+          <li>
+            <FaLocationDot />
+            {location}
+          </li>
+        )}
+        <li>
+          <FaMoneyBillWave />${salary / 100}
+        </li>
+      </ul>
+      <footer>
+        {user && user.id === userId && (
+          <>
+            <Link href={`/dashboard/jobs/${id}/edit`} className='btn-flex'>
+              <FaPenToSquare /> edit
+            </Link>
+            <DeleteJobForm id={id} userId={userId} />
+          </>
+        )}
+        <Link href={`/jobs/${id}`} className='btn-flex btn-alt'>
+          <FaEye /> browse
+        </Link>
+      </footer>
     </article>
   );
 }

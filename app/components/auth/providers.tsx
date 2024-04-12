@@ -7,7 +7,7 @@ import { FaGithub, FaGoogle } from 'react-icons/fa6';
 
 export default function Providers() {
   return (
-    <div className='auth-form'>
+    <div className='form-card'>
       <h2 className='form-title'>Sign in with</h2>
       <ProviderForm providerId='github'>
         <FormSubmitBtn className='btn-flex btn-alt'>

@@ -2,6 +2,7 @@ import { fetchJobs } from '@/app/lib/data';
 import type { JobFilters } from '@/app/lib/types';
 import JobCard from './job-card';
 import { Prisma } from '@prisma/client';
+import styles from './job-list.module.scss';
 
 export default async function JobList({
   filters,
@@ -14,7 +15,7 @@ export default async function JobList({
 }) {
   const jobs = await fetchJobs(filters, orderBy, currentPage);
   return (
-    <div>
+    <div className={styles.container}>
       {jobs.map((job) => (
         <JobCard key={job.id} {...job} />
       ))}

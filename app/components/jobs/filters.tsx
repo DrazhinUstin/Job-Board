@@ -27,14 +27,14 @@ export default function Filters({ categories }: { categories: Category[] }) {
 
   return (
     <aside>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className='form'>
         <div>
           <label htmlFor='query'>search:</label>
           <input
             type='text'
             name='query'
             id='query'
-            placeholder='Search by title, location, company name'
+            placeholder='Title, location, company name'
             defaultValue={searchParams.get('query') || undefined}
           />
         </div>
@@ -64,7 +64,9 @@ export default function Filters({ categories }: { categories: Category[] }) {
             ))}
           </select>
         </div>
-        <button type='submit'>apply</button>
+        <button type='submit' className='btn'>
+          apply
+        </button>
       </form>
     </aside>
   );

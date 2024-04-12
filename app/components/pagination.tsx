@@ -3,6 +3,7 @@
 import { generatePagination } from '@/app/lib/utils';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
+import styles from './pagination.module.scss';
 
 export default function Pagination({
   currentPage,
@@ -26,7 +27,7 @@ export default function Pagination({
   }
 
   return (
-    <div>
+    <div className={styles.container}>
       <PageArrow
         direction='left'
         disabled={currentPage <= 1}
