@@ -8,6 +8,7 @@ import { Suspense } from 'react';
 import { orderOptions } from '../lib/company-order-options';
 import { fetchCompaniesTotalPages } from '../lib/data';
 import Pagination from '../components/pagination';
+import styles from './page.module.scss';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -26,15 +27,19 @@ export default async function Page({ searchParams }: Props) {
   const currentPage = Number(searchParams.page) || 1;
   const totalPages = await fetchCompaniesTotalPages(filters);
   return (
-    <main>
+    <main className='main'>
       <Breadcrumbs items={[{ label: 'companies' }]} />
-      <h2>All Companies</h2>
-      <Filters />
-      <Order options={orderOptions} />
-      <Suspense key={JSON.stringify(searchParams)} fallback={<h2>LOADING...</h2>}>
-        <CompanyList filters={filters} orderBy={parsedOrderBy} page={currentPage} />
-      </Suspense>
-      <Pagination currentPage={currentPage} totalPages={totalPages} />
+      <h2 className='section-title'>All Companies</h2>
+      <div className={styles.container}>
+        <Filters />
+        <div>
+          <Order options={orderOptions} />
+          <Suspense key={JSON.stringify(searchParams)} fallback={<h2>LOADING...</h2>}>
+            <CompanyList filters={filters} orderBy={parsedOrderBy} page={currentPage} />
+          </Suspense>
+          <Pagination currentPage={currentPage} totalPages={totalPages} />
+        </div>
+      </div>
     </main>
   );
 }

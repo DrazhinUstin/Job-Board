@@ -24,18 +24,20 @@ export default function Filters() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className='form'>
       <div>
         <label htmlFor='query'>search:</label>
         <input
           type='text'
           name='query'
           id='query'
-          placeholder='search by name, location'
+          placeholder='Name, location'
           defaultValue={searchParams.get('query') || undefined}
         />
       </div>
-      <button type='submit'>apply</button>
+      <button type='submit' className='btn'>
+        apply
+      </button>
     </form>
   );
 }

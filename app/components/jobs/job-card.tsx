@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
-import Image from 'next/image';
 import { auth } from '@/auth';
 import Link from 'next/link';
+import CompanyLogo from '../company-logo';
 import DeleteJobForm from './delete-job-form';
 import { fetchJobs } from '@/app/lib/data';
 import { FaBriefcase, FaLocationDot, FaMoneyBillWave, FaPenToSquare, FaEye } from 'react-icons/fa6';
@@ -21,7 +21,7 @@ export default async function JobCard({
   return (
     <article className={styles.card}>
       <header>
-        {company && <Image src={company.logoUrl || ''} alt='company logo' width={50} height={50} />}
+        {company && <CompanyLogo src={company.logoUrl} width={50} height={50} />}
         <div>
           <h4>{title}</h4>
           {company && <p>{company.name}</p>}
