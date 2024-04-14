@@ -46,7 +46,9 @@ export default async function ApplyJobForm({ jobId }: { jobId: string }) {
 
   return (
     <form action={toggleConnection}>
-      <FormSubmitBtn>{isJobAppliedByUser ? 'applied' : 'apply'}</FormSubmitBtn>
+      <FormSubmitBtn className={`${isJobAppliedByUser ? 'btn-alert' : 'btn'} w-100`}>
+        {isJobAppliedByUser ? 'applied' : 'apply'}
+      </FormSubmitBtn>
     </form>
   );
 }

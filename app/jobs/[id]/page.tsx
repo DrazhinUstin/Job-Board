@@ -34,7 +34,7 @@ export default async function Page({ params: { id } }: Props) {
   }
 
   return (
-    <main>
+    <main className='main'>
       <Breadcrumbs items={[{ label: 'jobs', href: '/jobs' }, { label: job.title }]} />
       <JobDetails {...job} />
     </main>

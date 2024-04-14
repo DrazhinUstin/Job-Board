@@ -266,9 +266,31 @@ svg {
   background-color: var(--color-red);
 }
 
+.w-100 {
+  width: 100%;
+}
+
 .grid-center {
   display: grid;
   place-items: center;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+
+.company-logo {
+  border-radius: var(--border-radius-2);
 }
 
 @keyframes appearance {
