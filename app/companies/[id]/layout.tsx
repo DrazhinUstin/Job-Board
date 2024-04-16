@@ -1,9 +1,10 @@
 import { cachedFetchCompanyById } from '@/app/lib/data';
 import { Metadata } from 'next';
-import Image from 'next/image';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Breadcrumbs from '@/app/components/breadcrumbs';
+import CompanyLogo from '@/app/components/company-logo';
+import NavLinks from '@/app/components/companies/nav-links';
+import styles from './layout.module.scss';
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const data = await cachedFetchCompanyById(params.id);
@@ -25,17 +26,16 @@ export default async function Layout({
   if (!data) notFound();
 
   return (
-    <div>
+    <main className='main'>
       <Breadcrumbs items={[{ label: 'companies', href: '/companies' }, { label: data.name }]} />
-      <header style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <Image src={data.logoUrl || ''} alt='company logo' width={50} height={50} />
-        <h4>{data.name}</h4>
+      <header className={styles.header}>
+        <CompanyLogo src={data.logoUrl} width={100} height={100} />
+        <h2>{data.name}</h2>
       </header>
-      <div style={{ display: 'flex', gap: '1rem' }}>
-        <Link href={`/companies/${id}`}>about company</Link>
-        <Link href={`/companies/${id}/jobs`}>active jobs</Link>
-      </div>
+      <nav className={styles.nav}>
+        <NavLinks jobsCount={data.jobsCount} />
+      </nav>
       {children}
-    </div>
+    </main>
   );
 }

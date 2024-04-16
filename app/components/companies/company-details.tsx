@@ -1,9 +1,9 @@
 import { fetchCompanyById } from '@/app/lib/data';
-import Image from 'next/image';
+import { FaBriefcase, FaLocationDot, FaGlobe, FaClock } from 'react-icons/fa6';
+import styles from './company-details.module.scss';
 
 export default function CompanyDetails({
   name,
-  logoUrl,
   location,
   description,
   websiteUrl,
@@ -12,30 +12,53 @@ export default function CompanyDetails({
 }: Exclude<Awaited<ReturnType<typeof fetchCompanyById>>, null>) {
   return (
     <section>
-      <div>
-        <Image src={logoUrl || ''} alt='company logo' width={100} height={100} />
-        <h2>{name}</h2>
-        <p>
-          registered since: <span>{createdAt.toDateString()}</span>
-        </p>
+      <ul className={styles.features}>
         {location && (
-          <p>
-            location: <span>{location}</span>
-          </p>
+          <li>
+            <span>
+              <FaLocationDot />
+            </span>
+            <div>
+              <h4>Location:</h4>
+              <p>{location}</p>
+            </div>
+          </li>
         )}
         {websiteUrl && (
-          <p>
-            website:
-            <a href={websiteUrl} target='_blank' rel='noopener noreferrer'>
-              {name}
-            </a>
-          </p>
+          <li>
+            <span>
+              <FaGlobe />
+            </span>
+            <div>
+              <h4>Website:</h4>
+              <p>
+                <a href={websiteUrl} target='_blank' rel='noopener noreferrer'>
+                  {name}
+                </a>
+              </p>
+            </div>
+          </li>
         )}
-        <p>
-          open jobs: <span>{jobsCount}</span>
-        </p>
-      </div>
-      <div>
+        <li>
+          <span>
+            <FaClock />
+          </span>
+          <div>
+            <h4>Published:</h4>
+            <p>{createdAt.toDateString()}</p>
+          </div>
+        </li>
+        <li>
+          <span>
+            <FaBriefcase />
+          </span>
+          <div>
+            <h4>Open jobs:</h4>
+            <p>{jobsCount}</p>
+          </div>
+        </li>
+      </ul>
+      <div className={styles.about}>
         <h3>About Company:</h3>
         <p>{description}</p>
       </div>

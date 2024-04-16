@@ -23,13 +23,12 @@ export default async function Page({ params, searchParams }: Props) {
   const currentPage = Number(page) || 1;
   const totalPages = Math.ceil(data.jobsCount / jobsPerPage);
   return (
-    <main>
-      <h2>Active jobs</h2>
+    <section>
       <Order options={orderOptions} />
       <Suspense key={JSON.stringify(searchParams)} fallback={<h2>LOADING...</h2>}>
         <JobList filters={{ companyId }} orderBy={parsedOrderBy} currentPage={currentPage} />
       </Suspense>
       <Pagination currentPage={currentPage} totalPages={totalPages} />
-    </main>
+    </section>
   );
 }

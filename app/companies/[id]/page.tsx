@@ -13,9 +13,5 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   if (!data) notFound();
 
-  return (
-    <main>
-      <CompanyDetails {...data} />
-    </main>
-  );
+  return <CompanyDetails {...data} />;
 }
