@@ -1,8 +1,10 @@
 import { auth } from '@/auth';
 import { cachedFetchApplicant } from '@/app/lib/data';
-import Link from 'next/link';
 import { Metadata } from 'next';
 import Avatar from '@/app/components/avatar';
+import NavLinks from '@/app/components/nav-links';
+import { FaGithub, FaLinkedin } from 'react-icons/fa6';
+import styles from './layout.module.scss';
 
 export const metadata: Metadata = {
   title: {
@@ -10,6 +12,12 @@ export const metadata: Metadata = {
     default: 'Applicant',
   },
 };
+
+const navLinks = [
+  { id: 1, href: '/profile/applicant', label: 'profile details' },
+  { id: 2, href: '/profile/applicant/edit', label: 'edit profile' },
+  { id: 3, href: '/profile/applicant/jobs', label: 'applied jobs' },
+];
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
   const user = (await auth())?.user;
@@ -22,27 +30,25 @@ export default async function Layout({ children }: { children: React.ReactNode }
   const { photoUrl, fullName, linkedinUrl, githubUrl } = applicant;
   return (
     <div>
-      <div>
-        <Avatar src={photoUrl} width={50} height={50} />
+      <header className={styles.header}>
+        <Avatar src={photoUrl} width={80} height={80} />
         <h4>{fullName}</h4>
         <p>
           {linkedinUrl && (
             <a href={linkedinUrl} target='_blank' rel='noopener noreferrer'>
-              linkedin
+              <FaLinkedin />
             </a>
           )}
           {githubUrl && (
-            <a href={githubUrl} target='_blank' rel='noopener noreferrer'>
-              github
+            <a href={githubUrl} target='_blank' rel='noopener noreferrer' className={styles.github}>
+              <FaGithub />
             </a>
           )}
         </p>
-        <Link href='/profile/applicant/edit'>edit</Link>
-      </div>
-      <div style={{ display: 'flex', gap: '0.5rem' }}>
-        <Link href='/profile/applicant'>overview</Link>
-        <Link href='/profile/applicant/jobs'>applied jobs</Link>
-      </div>
+      </header>
+      <nav className={styles.nav}>
+        <NavLinks items={navLinks} variant='alternative' />
+      </nav>
       <div>{children}</div>
     </div>
   );

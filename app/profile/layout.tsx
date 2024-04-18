@@ -1,6 +1,8 @@
-import Link from 'next/link';
 import { Metadata } from 'next';
 import Breadcrumbs from '../components/breadcrumbs';
+import NavLinks from '../components/nav-links';
+import { FaCircleUser, FaBriefcase } from 'react-icons/fa6';
+import styles from './layout.module.scss';
 
 export const metadata: Metadata = {
   title: {
@@ -9,15 +11,28 @@ export const metadata: Metadata = {
   },
 };
 
+const navLinks = [
+  { id: 1, href: '/profile', label: 'account', icon: <FaCircleUser /> },
+  {
+    id: 2,
+    href: '/profile/applicant',
+    label: 'applicant profile',
+    icon: <FaBriefcase />,
+  },
+];
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div>
+    <main className='main'>
       <Breadcrumbs items={[{ label: 'profile' }]} />
-      <div style={{ display: 'flex', gap: '0.5rem' }}>
-        <Link href='/profile'>account</Link>
-        <Link href='/profile/applicant'>applicant profile</Link>
+      <div className={styles.container}>
+        <aside>
+          <nav className={styles.sidenav}>
+            <NavLinks items={navLinks} />
+          </nav>
+        </aside>
+        {children}
       </div>
-      {children}
-    </div>
+    </main>
   );
 }

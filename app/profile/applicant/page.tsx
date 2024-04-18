@@ -9,16 +9,14 @@ export default async function Page() {
 
   if (!applicant) {
     return (
-      <main>
-        <p>You have no applicant profile yet...</p>
-        <Link href='/profile/applicant/edit'>create applicant profile</Link>
-      </main>
+      <div className='text-center'>
+        <p className='mb-4'>You have no applicant profile yet...</p>
+        <Link href='/profile/applicant/edit' className='btn'>
+          create applicant profile
+        </Link>
+      </div>
     );
   }
 
-  return (
-    <main>
-      <ApplicantDetails {...applicant} />
-    </main>
-  );
+  return <ApplicantDetails {...applicant} />;
 }

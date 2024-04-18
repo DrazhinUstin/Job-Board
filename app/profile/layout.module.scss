@@ -1,0 +1,18 @@
+@use '@/app/scss/mixins';
+
+.container {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  align-items: flex-start;
+  gap: 2rem;
+
+  @include mixins.breakpoint-down(md) {
+    grid-template-columns: unset;
+  }
+}
+
+.sidenav {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.375rem;
+}

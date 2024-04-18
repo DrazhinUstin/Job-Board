@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Breadcrumbs from '@/app/components/breadcrumbs';
 import CompanyLogo from '@/app/components/company-logo';
-import NavLinks from '@/app/components/companies/nav-links';
+import NavLinks from '@/app/components/nav-links';
 import styles from './layout.module.scss';
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
@@ -25,6 +25,11 @@ export default async function Layout({
 
   if (!data) notFound();
 
+  const navLinks = [
+    { id: 1, href: `/companies/${id}`, label: 'overview' },
+    { id: 2, href: `/companies/${id}/jobs`, label: `active jobs (${data.jobsCount})` },
+  ];
+
   return (
     <main className='main'>
       <Breadcrumbs items={[{ label: 'companies', href: '/companies' }, { label: data.name }]} />
@@ -33,7 +38,7 @@ export default async function Layout({
         <h2>{data.name}</h2>
       </header>
       <nav className={styles.nav}>
-        <NavLinks jobsCount={data.jobsCount} />
+        <NavLinks items={navLinks} variant='alternative' />
       </nav>
       {children}
     </main>

@@ -9,7 +9,7 @@ export default function ApplicantForm({ applicant }: { applicant: Applicant | nu
   const upsertApplicantWithPhotoUrl = upsertApplicant.bind(null, applicant?.photoUrl || null);
   const [state, dispatch] = useFormState(upsertApplicantWithPhotoUrl, {});
   return (
-    <form action={dispatch}>
+    <form action={dispatch} className='form'>
       <div>
         <label htmlFor='fullName'>full name:</label>
         <input type='text' name='fullName' id='fullName' defaultValue={applicant?.fullName} />
@@ -89,7 +89,7 @@ export default function ApplicantForm({ applicant }: { applicant: Applicant | nu
         {state.fieldErrors?.bio && <p style={{ color: 'red' }}>{state.fieldErrors.bio}</p>}
       </div>
       {state.errorMsg && <p style={{ color: 'red' }}>{state.errorMsg}</p>}
-      <FormSubmitBtn>update</FormSubmitBtn>
+      <FormSubmitBtn className='btn'>update</FormSubmitBtn>
     </form>
   );
 }

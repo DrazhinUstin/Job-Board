@@ -10,9 +10,5 @@ export const metadata: Metadata = {
 export default async function Page() {
   const user = (await auth())?.user;
   const applicant = await cachedFetchApplicant(user?.id as string);
-  return (
-    <main>
-      <ApplicantForm applicant={applicant} />
-    </main>
-  );
+  return <ApplicantForm applicant={applicant} />;
 }

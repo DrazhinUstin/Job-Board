@@ -270,6 +270,10 @@ svg {
   width: 100%;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .grid-center {
   display: grid;
   place-items: center;
@@ -289,8 +293,36 @@ svg {
   column-gap: 0.5rem;
 }
 
+.avatar {
+  border-radius: 50%;
+}
+
 .company-logo {
   border-radius: var(--border-radius-2);
+}
+
+@for $i from 0 through 4 {
+  $base: 0.5rem;
+
+  @if $i==0 {
+    .mb {
+      margin-bottom: $base;
+    }
+
+    .mt {
+      margin-top: $base;
+    }
+  }
+
+  @else {
+    .mb-#{$i * 2} {
+      margin-bottom: $i * 2 * $base;
+    }
+
+    .mt-#{$i * 2} {
+      margin-top: $i * 2 * $base;
+    }
+  }
 }
 
 @keyframes appearance {

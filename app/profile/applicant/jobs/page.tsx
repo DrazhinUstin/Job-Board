@@ -18,8 +18,7 @@ export default async function Page({ searchParams }: Props) {
   const currentUser = (await auth())?.user;
   const totalPages = await fetchJobsTotalPages({ applicantUserId: currentUser?.id });
   return (
-    <main>
-      <h2>Applied jobs</h2>
+    <section>
       <Order options={orderOptions} />
       <Suspense key={JSON.stringify(searchParams)} fallback={<h2>LOADING...</h2>}>
         <JobList
@@ -29,6 +28,6 @@ export default async function Page({ searchParams }: Props) {
         />
       </Suspense>
       <Pagination currentPage={currentPage} totalPages={totalPages} />
-    </main>
+    </section>
   );
 }
