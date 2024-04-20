@@ -1,0 +1,35 @@
+.header {
+  max-width: 240px;
+  margin: 0 auto 2rem;
+  padding: 1rem;
+  border: 1px solid var(--color-gray-light);
+  border-radius: var(--border-radius);
+  text-align: center;
+
+  img {
+    margin: 0 auto 0.5rem;
+  }
+
+  h4 {
+    margin-bottom: 0.5rem;
+  }
+
+  .links {
+    display: flex;
+    justify-content: center;
+    column-gap: 0.5rem;
+
+    &:has(a) {
+      margin: 0.5rem;
+    }
+
+    a {
+      color: var(--color-primary-3);
+      font-size: 1.2rem;
+
+      &.github {
+        color: var(--color-black);
+      }
+    }
+  }
+}

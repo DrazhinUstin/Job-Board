@@ -2,6 +2,7 @@ import { fetchApplicantsOnJobs } from '@/app/lib/data';
 import { ApplicantsOnJobsFilters } from '@/app/lib/types';
 import { Prisma } from '@prisma/client';
 import ApplicantRow from './applicant-row';
+import ApplicantRowPlaceholder from './applicant-row-placeholder';
 
 export default async function ApplicantTable({
   filters,
@@ -15,6 +16,7 @@ export default async function ApplicantTable({
   const applicantsOnJobs = await fetchApplicantsOnJobs(filters, orderBy, page);
   return (
     <div>
+      <ApplicantRowPlaceholder />
       {applicantsOnJobs.map((applicantOnJob) => (
         <ApplicantRow
           key={applicantOnJob.applicant.id + applicantOnJob.job.id}

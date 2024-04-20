@@ -1,15 +1,16 @@
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormState } from 'react-dom';
 import { Category } from '@prisma/client';
 import { jobTypes } from '@/app/lib/job-types';
 import { createJob } from '@/app/lib/actions';
+import FormSubmitBtn from '@/app/components/form-submit-btn';
 
 export default function CreateJobForm({ categories }: { categories: Category[] }) {
   const [state, dispatch] = useFormState(createJob, {});
   return (
-    <form action={dispatch}>
-      <h2>create a job</h2>
+    <form action={dispatch} className='form'>
+      <h2 className='form-title'>Create a Job</h2>
       <div>
         <label htmlFor='category'>category:</label>
         <select name='categoryName' id='category'>
@@ -79,16 +80,7 @@ export default function CreateJobForm({ categories }: { categories: Category[] }
         )}
       </div>
       {state?.errorMsg && <p style={{ color: 'red' }}>{state.errorMsg}</p>}
-      <SubmitBtn />
+      <FormSubmitBtn className='btn'>create</FormSubmitBtn>
     </form>
-  );
-}
-
-function SubmitBtn() {
-  const { pending } = useFormStatus();
-  return (
-    <button type='submit' disabled={pending}>
-      create
-    </button>
   );
 }

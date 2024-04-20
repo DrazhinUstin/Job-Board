@@ -10,6 +10,7 @@ import { Prisma } from '@prisma/client';
 import { User } from 'next-auth';
 import { Suspense } from 'react';
 import Link from 'next/link';
+import { FaPlus } from 'react-icons/fa6';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -33,10 +34,16 @@ export default async function Page({ searchParams }: PageProps) {
   ]);
   return (
     <main>
-      <h2>Your created jobs</h2>
-      <Link href='/dashboard/jobs/create'>create a job</Link>
+      <div className='mb-4'>
+        <Link href='/dashboard/jobs/create' className='btn-flex'>
+          <FaPlus />
+          create a job
+        </Link>
+      </div>
       <div>
-        <Filters categories={categories} />
+        <div className='mb-4'>
+          <Filters categories={categories} />
+        </div>
         <Order options={orderOptions} />
         <Suspense key={JSON.stringify(searchParams)} fallback={<h2>LOADING...</h2>}>
           <JobList

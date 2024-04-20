@@ -1,32 +1,49 @@
 import { auth } from '@/auth';
 import { fetchUserOverview } from '@/app/lib/data';
-import Image from 'next/image';
+import CompanyLogo from '../company-logo';
+import { FaBuilding, FaBriefcase, FaUsers } from 'react-icons/fa6';
+import styles from './overview.module.scss';
 
 export default async function Overview() {
   const user = (await auth())?.user;
   const { company, totalJobs, totalApplicants } = await fetchUserOverview(user?.id as string);
   return (
-    <div>
-      <div>
-        <h3>Your company:</h3>
+    <div className={styles.container}>
+      <div className={styles.card}>
         {company ? (
-          <div>
-            <p>
-              <Image width={50} height={50} src={company.logoUrl || ''} alt='logo' />
-              {company.name}
-            </p>
-          </div>
+          <>
+            <CompanyLogo src={company.logoUrl} width={64} height={64} />
+            <div>
+              <h3>{company.name}</h3>
+              <p>Your company</p>
+            </div>
+          </>
         ) : (
-          <p>No company created</p>
+          <>
+            <span>
+              <FaBuilding />
+            </span>
+            <p>No company created</p>
+          </>
         )}
       </div>
-      <div>
-        <h3>Total created jobs:</h3>
-        <p>{totalJobs}</p>
+      <div className={styles.card}>
+        <span>
+          <FaBriefcase />
+        </span>
+        <div>
+          <h2>{totalJobs}</h2>
+          <p>Total jobs</p>
+        </div>
       </div>
-      <div>
-        <h3>Total applicants:</h3>
-        <p>{totalApplicants}</p>
+      <div className={styles.card}>
+        <span>
+          <FaUsers />
+        </span>
+        <div>
+          <h2>{totalApplicants}</h2>
+          <p>Total applicants</p>
+        </div>
       </div>
     </div>
   );

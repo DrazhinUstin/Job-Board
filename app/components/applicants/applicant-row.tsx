@@ -3,6 +3,8 @@ import { Prisma } from '@prisma/client';
 import Link from 'next/link';
 import DeleteApplicantForm from './delete-applicant-form';
 import Avatar from '../avatar';
+import { FaEye } from 'react-icons/fa6';
+import styles from './applicant-table.module.scss';
 
 export default function ApplicantRow({
   applicant: { id: applicantId, fullName, photoUrl },
@@ -10,23 +12,23 @@ export default function ApplicantRow({
   appliedAt,
 }: Prisma.PromiseReturnType<typeof fetchApplicantsOnJobs>[0]) {
   return (
-    <article style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-        <Avatar src={photoUrl} width={40} height={40} />
-        <h4>{fullName}</h4>
+    <article className={styles.row}>
+      <div>
+        <Avatar src={photoUrl} width={32} height={32} />
+        <p>{fullName}</p>
       </div>
       <div>
-        <h4>{title}</h4>
+        <Link href={`/jobs/${jobId}`} className='text-link'>
+          <p>{title}</p>
+        </Link>
       </div>
       <div>
         <p>{appliedAt.toDateString()}</p>
       </div>
-      <div>
-        <p>
-          <Link href={`/dashboard/applicants/${applicantId}`} scroll={false}>
-            browse
-          </Link>
-        </p>
+      <div className='grid-center'>
+        <Link href={`/dashboard/applicants/${applicantId}`} scroll={false} className='btn'>
+          <FaEye />
+        </Link>
       </div>
       <div>
         <DeleteApplicantForm applicantId={applicantId} jobId={jobId} />

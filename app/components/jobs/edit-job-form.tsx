@@ -2,15 +2,16 @@
 
 import { Category, Job } from '@prisma/client';
 import { jobTypes } from '@/app/lib/job-types';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormState } from 'react-dom';
 import { editJob } from '@/app/lib/actions';
+import FormSubmitBtn from '@/app/components/form-submit-btn';
 
 export default function EditJobForm({ job, categories }: { job: Job; categories: Category[] }) {
   const editJobWithId = editJob.bind(null, job.id, job.userId);
   const [state, dispatch] = useFormState(editJobWithId, {});
   return (
-    <form action={dispatch}>
-      <h2>edit a job</h2>
+    <form action={dispatch} className='form'>
+      <h2 className='form-title'>Edit a Job</h2>
       <div>
         <label htmlFor='categoryName'>category:</label>
         <select name='categoryName' id='categoryName' defaultValue={job.categoryName}>
@@ -102,16 +103,7 @@ export default function EditJobForm({ job, categories }: { job: Job; categories:
         )}
       </div>
       {state.errorMsg && <p style={{ color: 'red' }}>{state.errorMsg}</p>}
-      <SubmitBtn />
+      <FormSubmitBtn className='btn'>edit</FormSubmitBtn>
     </form>
-  );
-}
-
-function SubmitBtn() {
-  const { pending } = useFormStatus();
-  return (
-    <button type='submit' disabled={pending}>
-      edit
-    </button>
   );
 }

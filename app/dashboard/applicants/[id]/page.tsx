@@ -4,6 +4,8 @@ import Avatar from '@/app/components/avatar';
 import { cachedFetchApplicantById } from '@/app/lib/data';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { FaGithub, FaLinkedin } from 'react-icons/fa6';
+import styles from './page.module.scss';
 
 interface Props {
   params: { id: string };
@@ -31,23 +33,23 @@ export default async function Page({ params: { id } }: Props) {
   const { photoUrl, fullName, linkedinUrl, githubUrl } = applicant;
   return (
     <main>
-      <div>
-        <Avatar src={photoUrl} width={50} height={50} />
+      <header className={styles.header}>
+        <Avatar src={photoUrl} width={80} height={80} />
         <h4>{fullName}</h4>
-        <p>
+        <p className={styles.links}>
           {linkedinUrl && (
             <a href={linkedinUrl} target='_blank' rel='noopener noreferrer'>
-              linkedin
+              <FaLinkedin />
             </a>
           )}
           {githubUrl && (
-            <a href={githubUrl} target='_blank' rel='noopener noreferrer'>
-              github
+            <a href={githubUrl} target='_blank' rel='noopener noreferrer' className={styles.github}>
+              <FaGithub />
             </a>
           )}
         </p>
         <ContactLink {...applicant} />
-      </div>
+      </header>
       <ApplicantDetails {...applicant} />
     </main>
   );

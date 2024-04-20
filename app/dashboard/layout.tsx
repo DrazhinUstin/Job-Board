@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
 import Breadcrumbs from '../components/breadcrumbs';
+import NavLinks from '../components/nav-links';
+import { FaHouse, FaBriefcase, FaIdCard, FaBuilding } from 'react-icons/fa6';
+import styles from './layout.module.scss';
 
 export const metadata: Metadata = {
   title: {
@@ -9,18 +11,45 @@ export const metadata: Metadata = {
   },
 };
 
+const navLinks = [
+  {
+    id: 1,
+    href: '/dashboard',
+    label: 'overview',
+    icon: <FaHouse />,
+  },
+  {
+    id: 2,
+    href: '/dashboard/jobs',
+    label: 'manage jobs',
+    icon: <FaBriefcase />,
+  },
+  {
+    id: 3,
+    href: '/dashboard/applicants',
+    label: 'manage applicants',
+    icon: <FaIdCard />,
+  },
+  {
+    id: 4,
+    href: '/dashboard/company',
+    label: 'manage company',
+    icon: <FaBuilding />,
+  },
+];
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div>
+    <main className='main'>
       <Breadcrumbs items={[{ label: 'dashboard' }]} />
-      <h2>Dashboard</h2>
-      <div style={{ display: 'flex', gap: '0.5rem' }}>
-        <Link href='/dashboard'>overview</Link>
-        <Link href='/dashboard/jobs'>manage jobs</Link>
-        <Link href='/dashboard/applicants'>manage applicants</Link>
-        <Link href='/dashboard/company'>manage company</Link>
+      <div className={styles.container}>
+        <aside>
+          <nav className={styles.sidenav}>
+            <NavLinks items={navLinks} />
+          </nav>
+        </aside>
+        {children}
       </div>
-      {children}
-    </div>
+    </main>
   );
 }

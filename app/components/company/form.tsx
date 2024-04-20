@@ -9,17 +9,17 @@ export default function CompanyForm({ company }: { company: Company | null }) {
   const upsertCompanyWithLogoUrl = upsertCompany.bind(null, company?.logoUrl || null);
   const [state, dispatch] = useFormState(upsertCompanyWithLogoUrl, {});
   return (
-    <form action={dispatch}>
-      <h2>Company profile</h2>
+    <form action={dispatch} className='form'>
+      <h2 className='form-title'>Update Company</h2>
       <div>
         <label htmlFor='name'>name:</label>
         <input type='text' name='name' id='name' defaultValue={company?.name} />
-        {state.fieldErrors?.name && <p style={{ color: 'red' }}>{state.fieldErrors.name}</p>}
+        {state.fieldErrors?.name && <p className='form-error'>{state.fieldErrors.name}</p>}
       </div>
       <div>
         <label htmlFor='logo'>logo:</label>
         <input type='file' name='logo' id='logo' accept='image/*' />
-        {state.fieldErrors?.logo && <p style={{ color: 'red' }}>{state.fieldErrors.logo}</p>}
+        {state.fieldErrors?.logo && <p className='form-error'>{state.fieldErrors.logo}</p>}
       </div>
       <div>
         <label htmlFor='location'>location:</label>
@@ -29,9 +29,7 @@ export default function CompanyForm({ company }: { company: Company | null }) {
           id='location'
           defaultValue={company?.location || undefined}
         />
-        {state.fieldErrors?.location && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.location}</p>
-        )}
+        {state.fieldErrors?.location && <p className='form-error'>{state.fieldErrors.location}</p>}
       </div>
       <div>
         <label htmlFor='websiteUrl'>website url:</label>
@@ -42,7 +40,7 @@ export default function CompanyForm({ company }: { company: Company | null }) {
           defaultValue={company?.websiteUrl || undefined}
         />
         {state.fieldErrors?.websiteUrl && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.websiteUrl}</p>
+          <p className='form-error'>{state.fieldErrors.websiteUrl}</p>
         )}
       </div>
       <div>
@@ -55,11 +53,11 @@ export default function CompanyForm({ company }: { company: Company | null }) {
           defaultValue={company?.description || undefined}
         ></textarea>
         {state.fieldErrors?.description && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.description}</p>
+          <p className='form-error'>{state.fieldErrors.description}</p>
         )}
       </div>
-      {state.errorMsg && <p style={{ color: 'red' }}>{state.errorMsg}</p>}
-      <FormSubmitBtn>update</FormSubmitBtn>
+      {state.errorMsg && <p className='form-error'>{state.errorMsg}</p>}
+      <FormSubmitBtn className='btn'>update</FormSubmitBtn>
     </form>
   );
 }

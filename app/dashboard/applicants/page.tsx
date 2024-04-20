@@ -20,7 +20,7 @@ export default async function Page({ searchParams }: Props) {
   const totalPages = await fetchApplicantsOnJobsTotalPages({ userId });
   return (
     <main>
-      <h2>Applicants List</h2>
+      <h2 className='text-center mb-4'>Applicants List</h2>
       <Order options={orderOptions} />
       <Suspense key={JSON.stringify(searchParams)} fallback={<h2>LOADING...</h2>}>
         <ApplicantTable filters={{ userId }} orderBy={parsedOrderBy} page={currentPage} />

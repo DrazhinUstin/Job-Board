@@ -266,6 +266,14 @@ svg {
   background-color: var(--color-red);
 }
 
+.text-link {
+  color: var(--color-primary-2);
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 .w-100 {
   width: 100%;
 }
