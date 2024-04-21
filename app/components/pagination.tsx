@@ -3,6 +3,8 @@
 import { generatePagination } from '@/app/lib/utils';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
+import clsx from 'clsx';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import styles from './pagination.module.scss';
 
 export default function Pagination({
@@ -60,7 +62,17 @@ function PageNumber({
   isActive: boolean;
 }) {
   return (
-    <>{isActive || number === '...' ? <span>{number}</span> : <Link href={href}>{number}</Link>}</>
+    <>
+      {isActive || number === '...' ? (
+        <span className={clsx({ [styles.page]: isActive, [styles.active]: isActive })}>
+          {number}
+        </span>
+      ) : (
+        <Link href={href} className={styles.page}>
+          {number}
+        </Link>
+      )}
+    </>
   );
 }
 
@@ -73,6 +85,6 @@ function PageArrow({
   disabled: boolean;
   href: string;
 }) {
-  const icon = direction === 'left' ? '<' : '>';
+  const icon = direction === 'left' ? <FaChevronLeft /> : <FaChevronRight />;
   return <>{disabled ? <span>{icon}</span> : <Link href={href}>{icon}</Link>}</>;
 }

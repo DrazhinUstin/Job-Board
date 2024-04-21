@@ -24,13 +24,13 @@ export default function CreateJobForm({ categories }: { categories: Category[] }
           ))}
         </select>
         {state?.fieldErrors?.categoryName && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.categoryName}</p>
+          <p className='form-error'>{state.fieldErrors.categoryName}</p>
         )}
       </div>
       <div>
         <label htmlFor='title'>title:</label>
         <input type='text' name='title' id='title' />
-        {state?.fieldErrors?.title && <p style={{ color: 'red' }}>{state.fieldErrors.title}</p>}
+        {state?.fieldErrors?.title && <p className='form-error'>{state.fieldErrors.title}</p>}
       </div>
       <div>
         <label htmlFor='type'>type:</label>
@@ -44,42 +44,40 @@ export default function CreateJobForm({ categories }: { categories: Category[] }
             </option>
           ))}
         </select>
-        {state?.fieldErrors?.type && <p style={{ color: 'red' }}>{state.fieldErrors.type}</p>}
+        {state?.fieldErrors?.type && <p className='form-error'>{state.fieldErrors.type}</p>}
       </div>
       <div>
         <label htmlFor='location'>location:</label>
         <input type='text' name='location' id='location' />
-        {state?.fieldErrors?.location && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.location}</p>
-        )}
+        {state?.fieldErrors?.location && <p className='form-error'>{state.fieldErrors.location}</p>}
       </div>
       <div>
         <label htmlFor='salary'>salary (in $):</label>
         <input type='number' name='salary' id='salary' step={0.01} />
-        {state?.fieldErrors?.salary && <p style={{ color: 'red' }}>{state.fieldErrors.salary}</p>}
+        {state?.fieldErrors?.salary && <p className='form-error'>{state.fieldErrors.salary}</p>}
       </div>
       <div>
         <label htmlFor='contactEmail'>contact email:</label>
         <input type='email' name='contactEmail' id='contactEmail' />
         {state?.fieldErrors?.contactEmail && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.contactEmail}</p>
+          <p className='form-error'>{state.fieldErrors.contactEmail}</p>
         )}
       </div>
       <div>
         <label htmlFor='contactUrl'>contact url:</label>
         <input type='url' name='contactUrl' id='contactUrl' />
         {state?.fieldErrors?.contactUrl && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.contactUrl}</p>
+          <p className='form-error'>{state.fieldErrors.contactUrl}</p>
         )}
       </div>
       <div>
         <label htmlFor='description'>description:</label>
         <textarea name='description' id='description' cols={30} rows={10}></textarea>
         {state?.fieldErrors?.description && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.description}</p>
+          <p className='form-error'>{state.fieldErrors.description}</p>
         )}
       </div>
-      {state?.errorMsg && <p style={{ color: 'red' }}>{state.errorMsg}</p>}
+      {state?.errorMsg && <p className='form-error'>{state.errorMsg}</p>}
       <FormSubmitBtn className='btn'>create</FormSubmitBtn>
     </form>
   );

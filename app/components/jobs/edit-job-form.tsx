@@ -25,13 +25,13 @@ export default function EditJobForm({ job, categories }: { job: Job; categories:
           ))}
         </select>
         {state.fieldErrors?.categoryName && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.categoryName}</p>
+          <p className='form-error'>{state.fieldErrors.categoryName}</p>
         )}
       </div>
       <div>
         <label htmlFor='title'>title:</label>
         <input type='text' name='title' id='title' defaultValue={job.title} />
-        {state.fieldErrors?.title && <p style={{ color: 'red' }}>{state.fieldErrors.title}</p>}
+        {state.fieldErrors?.title && <p className='form-error'>{state.fieldErrors.title}</p>}
       </div>
       <div>
         <label htmlFor='type'>type:</label>
@@ -45,14 +45,12 @@ export default function EditJobForm({ job, categories }: { job: Job; categories:
             </option>
           ))}
         </select>
-        {state.fieldErrors?.type && <p style={{ color: 'red' }}>{state.fieldErrors.type}</p>}
+        {state.fieldErrors?.type && <p className='form-error'>{state.fieldErrors.type}</p>}
       </div>
       <div>
         <label htmlFor='location'>location:</label>
         <input type='text' name='location' id='location' defaultValue={job.location || undefined} />
-        {state.fieldErrors?.location && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.location}</p>
-        )}
+        {state.fieldErrors?.location && <p className='form-error'>{state.fieldErrors.location}</p>}
       </div>
       <div>
         <label htmlFor='salary'>salary (in $):</label>
@@ -63,7 +61,7 @@ export default function EditJobForm({ job, categories }: { job: Job; categories:
           step={0.01}
           defaultValue={job.salary / 100}
         />
-        {state.fieldErrors?.salary && <p style={{ color: 'red' }}>{state.fieldErrors.salary}</p>}
+        {state.fieldErrors?.salary && <p className='form-error'>{state.fieldErrors.salary}</p>}
       </div>
       <div>
         <label htmlFor='contactEmail'>contact email:</label>
@@ -74,7 +72,7 @@ export default function EditJobForm({ job, categories }: { job: Job; categories:
           defaultValue={job.contactEmail || undefined}
         />
         {state.fieldErrors?.contactEmail && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.contactEmail}</p>
+          <p className='form-error'>{state.fieldErrors.contactEmail}</p>
         )}
       </div>
       <div>
@@ -86,7 +84,7 @@ export default function EditJobForm({ job, categories }: { job: Job; categories:
           defaultValue={job.contactUrl || undefined}
         />
         {state.fieldErrors?.contactUrl && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.contactUrl}</p>
+          <p className='form-error'>{state.fieldErrors.contactUrl}</p>
         )}
       </div>
       <div>
@@ -99,10 +97,10 @@ export default function EditJobForm({ job, categories }: { job: Job; categories:
           defaultValue={job.description || undefined}
         ></textarea>
         {state.fieldErrors?.description && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.description}</p>
+          <p className='form-error'>{state.fieldErrors.description}</p>
         )}
       </div>
-      {state.errorMsg && <p style={{ color: 'red' }}>{state.errorMsg}</p>}
+      {state.errorMsg && <p className='form-error'>{state.errorMsg}</p>}
       <FormSubmitBtn className='btn'>edit</FormSubmitBtn>
     </form>
   );

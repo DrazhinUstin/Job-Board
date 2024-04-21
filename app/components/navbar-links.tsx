@@ -4,13 +4,8 @@ import { User } from 'next-auth';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import clsx from 'clsx';
+import { pageLinks } from '@/app/lib/page-links';
 import styles from './navbar.module.scss';
-
-const navLinks = [
-  { id: 1, label: 'home', href: '/' },
-  { id: 2, label: 'jobs', href: '/jobs' },
-  { id: 3, label: 'companies', href: '/companies' },
-];
 
 export default function NavbarLinks({ user }: { user: User | undefined }) {
   const [isOpen, setIsOpen] = useState<Boolean>(false);
@@ -37,15 +32,13 @@ export default function NavbarLinks({ user }: { user: User | undefined }) {
   return (
     <>
       <div className={clsx(styles.links, { [styles.open]: isOpen })} ref={linksRef}>
-        {navLinks.map(({ id, href, label }) => (
-          <Link key={id} href={href} onClick={() => setIsOpen(false)}>
-            {label}
-          </Link>
-        ))}
-        {user && (
-          <Link href='/dashboard' onClick={() => setIsOpen(false)}>
-            dashboard
-          </Link>
+        {pageLinks.map(
+          ({ id, href, label, isProtected }) =>
+            ((isProtected && user) || !isProtected) && (
+              <Link key={id} href={href} onClick={() => setIsOpen(false)}>
+                {label}
+              </Link>
+            )
         )}
       </div>
       <button

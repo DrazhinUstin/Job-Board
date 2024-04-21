@@ -27,7 +27,12 @@ export default function ApplicantDetails({ location, contactEmail, contactUrl, b
               <div>
                 <h4>Website linked:</h4>
                 <p>
-                  <a href={contactUrl} target='_blank' rel='noopener noreferrer'>
+                  <a
+                    href={contactUrl}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='text-link'
+                  >
                     {contactUrl}
                   </a>
                 </p>

@@ -13,21 +13,17 @@ export default function ApplicantForm({ applicant }: { applicant: Applicant | nu
       <div>
         <label htmlFor='fullName'>full name:</label>
         <input type='text' name='fullName' id='fullName' defaultValue={applicant?.fullName} />
-        {state.fieldErrors?.fullName && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.fullName}</p>
-        )}
+        {state.fieldErrors?.fullName && <p className='form-error'>{state.fieldErrors.fullName}</p>}
       </div>
       <div>
         <label htmlFor='photo'>photo:</label>
         <input type='file' name='photo' id='photo' accept='image/*' />
-        {state.fieldErrors?.photo && <p style={{ color: 'red' }}>{state.fieldErrors.photo}</p>}
+        {state.fieldErrors?.photo && <p className='form-error'>{state.fieldErrors.photo}</p>}
       </div>
       <div>
         <label htmlFor='location'>location:</label>
         <input type='text' name='location' id='location' defaultValue={applicant?.location || ''} />
-        {state.fieldErrors?.location && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.location}</p>
-        )}
+        {state.fieldErrors?.location && <p className='form-error'>{state.fieldErrors.location}</p>}
       </div>
       <div>
         <label htmlFor='contactEmail'>contact email:</label>
@@ -38,7 +34,7 @@ export default function ApplicantForm({ applicant }: { applicant: Applicant | nu
           defaultValue={applicant?.contactEmail || ''}
         />
         {state.fieldErrors?.contactEmail && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.contactEmail}</p>
+          <p className='form-error'>{state.fieldErrors.contactEmail}</p>
         )}
       </div>
       <div>
@@ -50,7 +46,7 @@ export default function ApplicantForm({ applicant }: { applicant: Applicant | nu
           defaultValue={applicant?.contactUrl || ''}
         />
         {state.fieldErrors?.contactUrl && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.contactUrl}</p>
+          <p className='form-error'>{state.fieldErrors.contactUrl}</p>
         )}
       </div>
       <div>
@@ -62,7 +58,7 @@ export default function ApplicantForm({ applicant }: { applicant: Applicant | nu
           defaultValue={applicant?.githubUrl || ''}
         />
         {state.fieldErrors?.githubUrl && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.githubUrl}</p>
+          <p className='form-error'>{state.fieldErrors.githubUrl}</p>
         )}
       </div>
       <div>
@@ -74,7 +70,7 @@ export default function ApplicantForm({ applicant }: { applicant: Applicant | nu
           defaultValue={applicant?.linkedinUrl || ''}
         />
         {state.fieldErrors?.linkedinUrl && (
-          <p style={{ color: 'red' }}>{state.fieldErrors.linkedinUrl}</p>
+          <p className='form-error'>{state.fieldErrors.linkedinUrl}</p>
         )}
       </div>
       <div>
@@ -86,9 +82,9 @@ export default function ApplicantForm({ applicant }: { applicant: Applicant | nu
           rows={10}
           defaultValue={applicant?.bio || ''}
         ></textarea>
-        {state.fieldErrors?.bio && <p style={{ color: 'red' }}>{state.fieldErrors.bio}</p>}
+        {state.fieldErrors?.bio && <p className='form-error'>{state.fieldErrors.bio}</p>}
       </div>
-      {state.errorMsg && <p style={{ color: 'red' }}>{state.errorMsg}</p>}
+      {state.errorMsg && <p className='form-error'>{state.errorMsg}</p>}
       <FormSubmitBtn className='btn'>update</FormSubmitBtn>
     </form>
   );

@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { FaChevronRight } from 'react-icons/fa';
+import styles from './breadcrumbs.module.scss';
 
 export default function Breadcrumbs({
   items,
@@ -7,11 +9,21 @@ export default function Breadcrumbs({
 }) {
   return (
     <nav>
-      <ul style={{ display: 'flex', gap: '0.5rem', listStyleType: 'none' }}>
+      <ul className={styles.container}>
         {[{ label: 'home', href: '/' }, ...items].map(({ label, href }, index, arr) => (
-          <li key={index} aria-current={!href} style={{ display: 'flex', gap: '0.25rem' }}>
-            {href ? <Link href={href}>{label}</Link> : <>{label}</>}
-            {index < arr.length - 1 && <span>&#x2B9E;</span>}
+          <li key={index} aria-current={!href}>
+            {href ? (
+              <Link href={href} className='text-link'>
+                {label}
+              </Link>
+            ) : (
+              <>{label}</>
+            )}
+            {index < arr.length - 1 && (
+              <span>
+                <FaChevronRight />
+              </span>
+            )}
           </li>
         ))}
       </ul>

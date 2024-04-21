@@ -28,6 +28,7 @@
   --max-width: 1200px;
   --fluid-width: 90vw;
   --navbar-height: 5rem;
+  --footer-height: 10rem;
   --breakpoint-xs: 480px;
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;
@@ -146,7 +147,6 @@ button {
   cursor: pointer;
 
   &:disabled {
-    opacity: 0.9;
     cursor: not-allowed;
   }
 }
@@ -164,7 +164,7 @@ svg {
 .main {
   max-width: var(--max-width);
   width: var(--fluid-width);
-  min-height: calc(100vh - var(--navbar-height));
+  min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
   margin: 0 auto;
   padding: 4rem 0;
 
@@ -215,7 +215,6 @@ svg {
   }
 
   &-error {
-    margin-top: 0.5rem;
     color: var(--color-red);
   }
 }
@@ -245,6 +244,35 @@ svg {
 
   &:hover {
     filter: brightness(120%)
+  }
+
+  &:disabled {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background-color: inherit;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      width: 1rem;
+      height: 1rem;
+      border: 4px solid var(--color-white);
+      border-right-color: transparent;
+      border-radius: 50%;
+      animation: spinner 0.5s linear 0s infinite;
+    }
   }
 }
 
@@ -340,5 +368,11 @@ svg {
 
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes spinner {
+  100% {
+    transform: rotate(360deg);
   }
 }

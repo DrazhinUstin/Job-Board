@@ -1,0 +1,46 @@
+@use '@/app/scss/mixins';
+
+.container {
+  height: var(--footer-height);
+  display: grid;
+  grid-template-rows: 1fr auto;
+  row-gap: 0.5rem;
+  padding: 0.5rem 0;
+  background-color: var(--color-primary-3);
+  color: var(--color-white);
+  font-size: var(--small-text);
+
+  &>*:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+
+    @include mixins.breakpoint-down(md) {
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+
+  &>*:last-child {
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-primary-2);
+  }
+
+  svg {
+    color: var(--color-white);
+    font-size: 1rem;
+  }
+}
+
+.links {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+
+  a {
+    display: inline-block;
+    color: var(--color-white);
+    text-transform: capitalize;
+  }
+}
