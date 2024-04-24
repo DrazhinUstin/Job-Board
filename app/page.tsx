@@ -1,5 +1,6 @@
 import Hero from '@/app/components/home/hero';
 import Categories from '@/app/components/home/categories';
+import Spinner from '@/app/components/spinner';
 import Steps from '@/app/components/home/steps';
 import { Suspense } from 'react';
 import {
@@ -14,7 +15,7 @@ export default function Page() {
     <>
       <Hero />
       <main className='main'>
-        <Suspense fallback={<h2>LOADING...</h2>}>
+        <Suspense fallback={<Spinner />}>
           <Categories />
         </Suspense>
         <section className='section'>

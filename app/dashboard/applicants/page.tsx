@@ -1,5 +1,6 @@
 import Order from '@/app/components/order';
 import ApplicantTable from '@/app/components/applicants/applicant-table';
+import Spinner from '@/app/components/spinner';
 import Pagination from '@/app/components/pagination';
 import { orderOptions } from '@/app/lib/applicants-on-jobs-order-options';
 import { fetchApplicantsOnJobsTotalPages } from '@/app/lib/data';
@@ -22,7 +23,7 @@ export default async function Page({ searchParams }: Props) {
     <main>
       <h2 className='text-center mb-4'>Applicants List</h2>
       <Order options={orderOptions} />
-      <Suspense key={JSON.stringify(searchParams)} fallback={<h2>LOADING...</h2>}>
+      <Suspense key={JSON.stringify(searchParams)} fallback={<Spinner />}>
         <ApplicantTable filters={{ userId }} orderBy={parsedOrderBy} page={currentPage} />
       </Suspense>
       <Pagination currentPage={currentPage} totalPages={totalPages} />

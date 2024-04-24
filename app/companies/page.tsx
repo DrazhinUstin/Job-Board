@@ -4,6 +4,7 @@ import Breadcrumbs from '../components/breadcrumbs';
 import Filters from '../components/companies/filters';
 import Order from '../components/order';
 import CompanyList from '../components/companies/company-list';
+import Spinner from '../components/spinner';
 import { Suspense } from 'react';
 import { orderOptions } from '../lib/company-order-options';
 import { fetchCompaniesTotalPages } from '../lib/data';
@@ -34,7 +35,7 @@ export default async function Page({ searchParams }: Props) {
         <Filters />
         <div>
           <Order options={orderOptions} />
-          <Suspense key={JSON.stringify(searchParams)} fallback={<h2>LOADING...</h2>}>
+          <Suspense key={JSON.stringify(searchParams)} fallback={<Spinner />}>
             <CompanyList filters={filters} orderBy={parsedOrderBy} page={currentPage} />
           </Suspense>
           <Pagination currentPage={currentPage} totalPages={totalPages} />

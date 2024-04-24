@@ -1,6 +1,7 @@
 import Filters from '@/app/components/jobs/filters';
 import Order from '@/app/components/order';
 import JobList from '@/app/components/jobs/job-list';
+import Spinner from '@/app/components/spinner';
 import Pagination from '@/app/components/pagination';
 import { fetchCategories, fetchJobsTotalPages } from '@/app/lib/data';
 import type { JobsPageSearchParams } from '@/app/lib/types';
@@ -45,7 +46,7 @@ export default async function Page({ searchParams }: PageProps) {
           <Filters categories={categories} />
         </div>
         <Order options={orderOptions} />
-        <Suspense key={JSON.stringify(searchParams)} fallback={<h2>LOADING...</h2>}>
+        <Suspense key={JSON.stringify(searchParams)} fallback={<Spinner />}>
           <JobList
             filters={{ ...filters, userId: currentUser.id }}
             orderBy={parsedOrderBy}

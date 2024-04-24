@@ -3,6 +3,7 @@ import Breadcrumbs from '../components/breadcrumbs';
 import Filters from '../components/jobs/filters';
 import Order from '../components/order';
 import JobList from '../components/jobs/job-list';
+import Spinner from '../components/spinner';
 import { Suspense } from 'react';
 import { Prisma } from '@prisma/client';
 import Pagination from '../components/pagination';
@@ -37,7 +38,7 @@ export default async function Page({ searchParams }: PageProps) {
         <Filters categories={categories} />
         <div>
           <Order options={orderOptions} />
-          <Suspense key={JSON.stringify(searchParams)} fallback={<h2>LOADING...</h2>}>
+          <Suspense key={JSON.stringify(searchParams)} fallback={<Spinner />}>
             <JobList filters={filters} orderBy={parsedOrderBy} currentPage={currentPage} />
           </Suspense>
           <Pagination currentPage={currentPage} totalPages={totalPages} />

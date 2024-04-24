@@ -1,5 +1,6 @@
 import Order from '@/app/components/order';
 import JobList from '@/app/components/jobs/job-list';
+import Spinner from '@/app/components/spinner';
 import Pagination from '@/app/components/pagination';
 import { fetchJobsTotalPages } from '@/app/lib/data';
 import { orderOptions } from '@/app/lib/job-order-options';
@@ -20,7 +21,7 @@ export default async function Page({ searchParams }: Props) {
   return (
     <section>
       <Order options={orderOptions} />
-      <Suspense key={JSON.stringify(searchParams)} fallback={<h2>LOADING...</h2>}>
+      <Suspense key={JSON.stringify(searchParams)} fallback={<Spinner />}>
         <JobList
           filters={{ applicantUserId: currentUser?.id }}
           orderBy={parsedOrderBy}

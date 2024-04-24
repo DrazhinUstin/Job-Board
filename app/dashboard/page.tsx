@@ -1,10 +1,11 @@
 import { Suspense } from 'react';
 import Overview from '../components/dashboard/overview';
+import Spinner from '../components/spinner';
 
 export default function Page() {
   return (
     <main>
-      <Suspense fallback={<h2>LOADING OVERVIEW...</h2>}>
+      <Suspense fallback={<Spinner />}>
         <Overview />
       </Suspense>
     </main>
