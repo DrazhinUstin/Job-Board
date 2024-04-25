@@ -27,7 +27,7 @@ export default async function Layout({
 
   const navLinks = [
     { id: 1, href: `/companies/${id}`, label: 'overview' },
-    { id: 2, href: `/companies/${id}/jobs`, label: `active jobs (${data.jobsCount})` },
+    { id: 2, href: `/companies/${id}/jobs`, label: `posted jobs (${data.jobsCount})` },
   ];
 
   return (

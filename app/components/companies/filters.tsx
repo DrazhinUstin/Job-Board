@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
+import type { CompanyFilters } from '@/app/lib/types';
 
 export default function Filters() {
   const pathname = usePathname();
@@ -10,6 +11,7 @@ export default function Filters() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    if (!formData.has('withPostedJobs')) formData.set('withPostedJobs', '');
     const values = Object.fromEntries(formData.entries()) as Record<string, string>;
     const params = new URLSearchParams(searchParams);
     Object.entries(values).forEach(([key, value]) => {
@@ -34,6 +36,16 @@ export default function Filters() {
           placeholder='Name, location'
           defaultValue={searchParams.get('query') || undefined}
         />
+      </div>
+      <div className='form-checkbox'>
+        <input
+          type='checkbox'
+          name='withPostedJobs'
+          id='withPostedJobs'
+          value={'true' satisfies CompanyFilters['withPostedJobs']}
+          defaultChecked={Boolean(searchParams.get('withPostedJobs'))}
+        />
+        <label htmlFor='withPostedJobs'>with posted jobs</label>
       </div>
       <button type='submit' className='btn'>
         apply

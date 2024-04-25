@@ -181,7 +181,7 @@ export async function fetchCompanies(
   page: number = 1
 ) {
   noStore();
-  const { query } = filters;
+  const { query, withPostedJobs } = filters;
   const queryInput: Prisma.CompanyWhereInput = {
     OR: [
       {
@@ -198,7 +198,10 @@ export async function fetchCompanies(
       },
     ],
   };
-  const where: Prisma.CompanyWhereInput = { ...(query ? queryInput : {}) };
+  const where: Prisma.CompanyWhereInput = {
+    ...(query ? queryInput : {}),
+    ...(withPostedJobs === 'true' ? { user: { jobs: { some: {} } } } : {}),
+  };
   const skip = (page - 1) * companiesPerPage;
   try {
     const companies = (
@@ -229,7 +232,7 @@ export async function fetchCompanies(
 
 export async function fetchCompaniesTotalPages(filters: CompanyFilters) {
   noStore();
-  const { query } = filters;
+  const { query, withPostedJobs } = filters;
   const queryInput: Prisma.CompanyWhereInput = {
     OR: [
       {
@@ -248,6 +251,7 @@ export async function fetchCompaniesTotalPages(filters: CompanyFilters) {
   };
   const where: Prisma.CompanyWhereInput = {
     ...(query ? queryInput : {}),
+    ...(withPostedJobs === 'true' ? { user: { jobs: { some: {} } } } : {}),
   };
   try {
     const count = await prisma.company.count({

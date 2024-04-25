@@ -33,4 +33,18 @@ export const orderOptions: {
       name: 'asc',
     },
   },
+  {
+    id: 5,
+    label: 'Jobs count (desc)',
+    value: {
+      user: { jobs: { _count: 'desc' } },
+    },
+  },
+  {
+    id: 6,
+    label: 'Jobs count (asc)',
+    value: {
+      user: { jobs: { _count: 'asc' } },
+    },
+  },
 ];

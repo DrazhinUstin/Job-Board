@@ -39,6 +39,7 @@ export type CompanyFormState = {
 
 export type CompanyFilters = {
   query?: string;
+  withPostedJobs?: 'true';
 };
 
 export type CompaniesPageSearchParams = CompanyFilters & { orderBy?: string; page?: string };

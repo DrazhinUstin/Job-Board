@@ -23,7 +23,7 @@ export default function CompanyCard({
       </div>
       <div>
         <Link href={`/companies/${id}/jobs`} className='btn'>
-          {jobsCount} open jobs
+          {jobsCount} posted jobs
         </Link>
       </div>
       <div>
