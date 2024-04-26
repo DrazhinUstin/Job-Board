@@ -23,15 +23,18 @@ interface PageProps {
 }
 
 export default async function Page({ searchParams }: PageProps) {
-  const { orderBy, page, ...filters } = searchParams;
+  const { orderBy, page, ...rest } = searchParams;
   const parsedOrderBy = orderBy
     ? (JSON.parse(orderBy) as Prisma.JobOrderByWithRelationInput)
     : undefined;
   const currentPage = Number(page) || 1;
   const currentUser = (await auth())?.user as User;
+  const minSalary = rest.minSalary ? Number(rest.minSalary) * 100 : undefined;
+  const maxSalary = rest.maxSalary ? Number(rest.maxSalary) * 100 : undefined;
+  const filters = { ...rest, minSalary, maxSalary, userId: currentUser.id };
   const [categories, totalPages] = await Promise.all([
     fetchCategories(),
-    fetchJobsTotalPages({ ...filters, userId: currentUser.id }),
+    fetchJobsTotalPages(filters),
   ]);
   return (
     <main>
@@ -47,11 +50,7 @@ export default async function Page({ searchParams }: PageProps) {
         </div>
         <Order options={orderOptions} />
         <Suspense key={JSON.stringify(searchParams)} fallback={<Spinner />}>
-          <JobList
-            filters={{ ...filters, userId: currentUser.id }}
-            orderBy={parsedOrderBy}
-            currentPage={currentPage}
-          />
+          <JobList filters={filters} orderBy={parsedOrderBy} currentPage={currentPage} />
         </Suspense>
         <Pagination currentPage={currentPage} totalPages={totalPages} />
       </div>

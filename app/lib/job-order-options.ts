@@ -19,4 +19,32 @@ export const orderOptions: {
       createdAt: 'asc',
     },
   },
+  {
+    id: 3,
+    label: 'Title (desc)',
+    value: {
+      title: 'desc',
+    },
+  },
+  {
+    id: 4,
+    label: 'Title (asc)',
+    value: {
+      title: 'asc',
+    },
+  },
+  {
+    id: 5,
+    label: 'Salary (desc)',
+    value: {
+      salary: 'desc',
+    },
+  },
+  {
+    id: 6,
+    label: 'Salary (asc)',
+    value: {
+      salary: 'asc',
+    },
+  },
 ];

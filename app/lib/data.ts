@@ -40,7 +40,8 @@ export async function fetchJobs(
   page: number = 1
 ) {
   noStore();
-  const { query, categoryName, type, userId, companyId, applicantUserId } = filters;
+  const { query, categoryName, type, minSalary, maxSalary, userId, companyId, applicantUserId } =
+    filters;
   const queryInput: Prisma.JobWhereInput = {
     OR: [
       {
@@ -68,11 +69,19 @@ export async function fetchJobs(
       equals: type,
     },
   };
+  const minSalaryInput: Prisma.JobWhereInput = {
+    salary: { gte: minSalary },
+  };
+  const maxSalaryInput: Prisma.JobWhereInput = {
+    salary: { lte: maxSalary },
+  };
   const where: Prisma.JobWhereInput = {
     AND: [
       query ? queryInput : {},
       categoryName ? categoryNameInput : {},
       type ? typeInput : {},
+      minSalary ? minSalaryInput : {},
+      maxSalary ? maxSalaryInput : {},
       userId ? { userId } : {},
       companyId ? { user: { company: { id: companyId } } } : {},
       applicantUserId ? { applicants: { some: { applicant: { userId: applicantUserId } } } } : {},
@@ -107,7 +116,8 @@ export async function fetchJobs(
 
 export async function fetchJobsTotalPages(filters: JobFilters) {
   noStore();
-  const { query, categoryName, type, userId, companyId, applicantUserId } = filters;
+  const { query, categoryName, type, minSalary, maxSalary, userId, companyId, applicantUserId } =
+    filters;
   const queryInput: Prisma.JobWhereInput = {
     OR: [
       {
@@ -127,6 +137,12 @@ export async function fetchJobsTotalPages(filters: JobFilters) {
       },
     ],
   };
+  const minSalaryInput: Prisma.JobWhereInput = {
+    salary: { gte: minSalary },
+  };
+  const maxSalaryInput: Prisma.JobWhereInput = {
+    salary: { lte: maxSalary },
+  };
   try {
     const count = await prisma.job.count({
       where: {
@@ -134,6 +150,8 @@ export async function fetchJobsTotalPages(filters: JobFilters) {
           query ? queryInput : {},
           categoryName ? { categoryName } : {},
           type ? { type } : {},
+          minSalary ? minSalaryInput : {},
+          maxSalary ? maxSalaryInput : {},
           userId ? { userId } : {},
           companyId ? { user: { company: { id: companyId } } } : {},
           applicantUserId

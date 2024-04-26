@@ -21,11 +21,14 @@ interface PageProps {
 }
 
 export default async function Page({ searchParams }: PageProps) {
-  const { orderBy, page, ...filters } = searchParams;
+  const { orderBy, page, ...rest } = searchParams;
   const parsedOrderBy = orderBy
     ? (JSON.parse(orderBy) as Prisma.JobOrderByWithRelationInput)
     : undefined;
   const currentPage = Number(page) || 1;
+  const minSalary = rest.minSalary ? Number(rest.minSalary) * 100 : undefined;
+  const maxSalary = rest.maxSalary ? Number(rest.maxSalary) * 100 : undefined;
+  const filters = { ...rest, minSalary, maxSalary };
   const [categories, totalPages] = await Promise.all([
     fetchCategories(),
     fetchJobsTotalPages(filters),

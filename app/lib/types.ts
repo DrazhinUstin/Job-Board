@@ -16,12 +16,16 @@ export type JobFilters = {
   query?: string;
   categoryName?: string;
   type?: string;
+  minSalary?: number;
+  maxSalary?: number;
   userId?: string;
   companyId?: string;
   applicantUserId?: string;
 };
 
-export type JobsPageSearchParams = Omit<JobFilters, 'userId' | 'companyId' | 'applicantUserId'> & {
+export type JobsPageSearchParams = Pick<JobFilters, 'query' | 'categoryName' | 'type'> & {
+  minSalary?: string;
+  maxSalary?: string;
   orderBy?: string;
   page?: string;
 };

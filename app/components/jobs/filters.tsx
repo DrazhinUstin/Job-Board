@@ -64,6 +64,28 @@ export default function Filters({ categories }: { categories: Category[] }) {
             ))}
           </select>
         </div>
+        <div>
+          <label htmlFor='minSalary'>salary range ($):</label>
+          <div className='flex-between'>
+            <input
+              type='number'
+              name='minSalary'
+              id='minSalary'
+              placeholder='min'
+              defaultValue={searchParams.get('minSalary') || undefined}
+              step={0.01}
+            />
+            <span>-</span>
+            <input
+              type='number'
+              name='maxSalary'
+              id='maxSalary'
+              placeholder='max'
+              defaultValue={searchParams.get('maxSalary') || undefined}
+              step={0.01}
+            />
+          </div>
+        </div>
         <button type='submit' className='btn'>
           apply
         </button>
