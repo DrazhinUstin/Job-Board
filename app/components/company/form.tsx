@@ -4,6 +4,7 @@ import { Company } from '@prisma/client';
 import FormSubmitBtn from '@/app/components/form-submit-btn';
 import { useFormState } from 'react-dom';
 import { upsertCompany } from '@/app/lib/actions';
+import WysiwygFormField from '@/app/components/wysiwyg-form-field';
 
 export default function CompanyForm({ company }: { company: Company | null }) {
   const upsertCompanyWithLogoUrl = upsertCompany.bind(null, company?.logoUrl || null);
@@ -44,14 +45,11 @@ export default function CompanyForm({ company }: { company: Company | null }) {
         )}
       </div>
       <div>
-        <label htmlFor='description'>description:</label>
-        <textarea
+        <WysiwygFormField
           name='description'
-          id='description'
-          cols={30}
-          rows={10}
-          defaultValue={company?.description || undefined}
-        ></textarea>
+          label='Description:'
+          initialValue={company?.description || undefined}
+        />
         {state.fieldErrors?.description && (
           <p className='form-error'>{state.fieldErrors.description}</p>
         )}

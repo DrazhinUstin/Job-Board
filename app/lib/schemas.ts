@@ -37,7 +37,7 @@ export const CreateJobFormSchema = z
       .gt(0, { message: 'Salary must be greater than 0' })
       .lt(1e6, { message: 'Salary must be less than 1000000' })
       .transform((val) => val * 100),
-    description: z.string().max(1000).optional(),
+    description: z.string().optional(),
   })
   .and(ContactsSchema);
 
@@ -45,7 +45,7 @@ export const CompanyFormSchema = z.object({
   name: requiredString,
   logo: LogoSchema,
   location: z.string().max(200).optional(),
-  description: z.string().max(1000).optional(),
+  description: z.string().optional(),
   websiteUrl: z.string().url().optional().or(z.literal('')),
 });
 
@@ -56,6 +56,6 @@ export const ApplicantFormSchema = z
     location: z.string().max(200).optional(),
     githubUrl: z.string().url().optional().or(z.literal('')),
     linkedinUrl: z.string().url().optional().or(z.literal('')),
-    bio: z.string().max(1000).optional(),
+    bio: z.string().optional(),
   })
   .and(ContactsSchema);

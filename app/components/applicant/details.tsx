@@ -54,7 +54,13 @@ export default function ApplicantDetails({ location, contactEmail, contactUrl, b
       </div>
       <div>
         <h3>About me:</h3>
-        <p>{bio}</p>
+        {bio ? (
+          <div className='tiptap-output' dangerouslySetInnerHTML={{ __html: bio }} />
+        ) : (
+          <p>
+            <em>No information provided</em>
+          </p>
+        )}
       </div>
     </section>
   );

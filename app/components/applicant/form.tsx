@@ -4,6 +4,7 @@ import { Applicant } from '@prisma/client';
 import FormSubmitBtn from '../form-submit-btn';
 import { useFormState } from 'react-dom';
 import { upsertApplicant } from '@/app/lib/actions';
+import WysiwygFormField from '../wysiwyg-form-field';
 
 export default function ApplicantForm({ applicant }: { applicant: Applicant | null }) {
   const upsertApplicantWithPhotoUrl = upsertApplicant.bind(null, applicant?.photoUrl || null);
@@ -74,14 +75,7 @@ export default function ApplicantForm({ applicant }: { applicant: Applicant | nu
         )}
       </div>
       <div>
-        <label htmlFor='bio'>Your biography:</label>
-        <textarea
-          name='bio'
-          id='bio'
-          cols={30}
-          rows={10}
-          defaultValue={applicant?.bio || ''}
-        ></textarea>
+        <WysiwygFormField name='bio' label='Your biography:' initialValue={applicant?.bio || ''} />
         {state.fieldErrors?.bio && <p className='form-error'>{state.fieldErrors.bio}</p>}
       </div>
       {state.errorMsg && <p className='form-error'>{state.errorMsg}</p>}

@@ -4,6 +4,7 @@ import { Category, Job } from '@prisma/client';
 import { jobTypes } from '@/app/lib/job-types';
 import { useFormState } from 'react-dom';
 import { editJob } from '@/app/lib/actions';
+import WysiwygFormField from '@/app/components/wysiwyg-form-field';
 import FormSubmitBtn from '@/app/components/form-submit-btn';
 
 export default function EditJobForm({ job, categories }: { job: Job; categories: Category[] }) {
@@ -88,14 +89,11 @@ export default function EditJobForm({ job, categories }: { job: Job; categories:
         )}
       </div>
       <div>
-        <label htmlFor='description'>description:</label>
-        <textarea
+        <WysiwygFormField
           name='description'
-          id='description'
-          cols={30}
-          rows={10}
-          defaultValue={job.description || undefined}
-        ></textarea>
+          label='Description:'
+          initialValue={job.description || undefined}
+        />
         {state.fieldErrors?.description && (
           <p className='form-error'>{state.fieldErrors.description}</p>
         )}

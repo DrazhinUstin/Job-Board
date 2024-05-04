@@ -104,12 +104,18 @@ export default async function JobDetails({
           )}
         </div>
         <div>
-          <div className={styles.description}>
-            <h3>Description:</h3>
-            <p>{description || <em>Description for this job was not provided</em>}</p>
+          <div>
+            <h3 className='mb-2'>Description:</h3>
+            {description ? (
+              <div className='tiptap-output' dangerouslySetInnerHTML={{ __html: description }} />
+            ) : (
+              <p>
+                <em>Description for this job was not provided</em>
+              </p>
+            )}
           </div>
           {user && user.id === userId && (
-            <div className='flex-between'>
+            <div className='flex-between mt-2'>
               <Link href={`/dashboard/jobs/${id}/edit`} className='btn-flex'>
                 <FaPenToSquare />
                 edit

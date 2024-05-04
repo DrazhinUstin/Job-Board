@@ -4,6 +4,7 @@ import { useFormState } from 'react-dom';
 import { Category } from '@prisma/client';
 import { jobTypes } from '@/app/lib/job-types';
 import { createJob } from '@/app/lib/actions';
+import WysiwygFormField from '@/app/components/wysiwyg-form-field';
 import FormSubmitBtn from '@/app/components/form-submit-btn';
 
 export default function CreateJobForm({ categories }: { categories: Category[] }) {
@@ -71,8 +72,7 @@ export default function CreateJobForm({ categories }: { categories: Category[] }
         )}
       </div>
       <div>
-        <label htmlFor='description'>description:</label>
-        <textarea name='description' id='description' cols={30} rows={10}></textarea>
+        <WysiwygFormField name='description' label='Description:' />
         {state?.fieldErrors?.description && (
           <p className='form-error'>{state.fieldErrors.description}</p>
         )}

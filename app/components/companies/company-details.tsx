@@ -58,9 +58,15 @@ export default function CompanyDetails({
           </div>
         </li>
       </ul>
-      <div className={styles.about}>
-        <h3>About Company:</h3>
-        <p>{description}</p>
+      <div>
+        <h3 className='mb-2'>About Company:</h3>
+        {description ? (
+          <div className='tiptap-output' dangerouslySetInnerHTML={{ __html: description }} />
+        ) : (
+          <p>
+            <em>No information provided</em>
+          </p>
+        )}
       </div>
     </section>
   );
