@@ -2,6 +2,7 @@ import { auth } from '@/auth';
 import Link from 'next/link';
 import { pageLinks } from '@/app/lib/page-links';
 import { FaGithub } from 'react-icons/fa6';
+import Logo from './logo';
 import styles from './footer.module.scss';
 
 export default async function Footer() {
@@ -9,7 +10,7 @@ export default async function Footer() {
   return (
     <footer className={styles.container}>
       <div className='section-center'>
-        <h2>Job Board</h2>
+        <Logo />
         <nav className={styles.links}>
           {pageLinks.map(
             ({ id, label, href, isProtected }) =>
