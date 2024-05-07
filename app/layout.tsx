@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './scss/globals.scss';
 import Navbar from './components/navbar';
 import Footer from './components/footer';
+import ScrollUpBtn from './components/scroll-up-btn';
 import { inter } from './lib/fonts';
 
 export const metadata: Metadata = {
@@ -23,6 +24,7 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
+        <ScrollUpBtn />
       </body>
     </html>
   );

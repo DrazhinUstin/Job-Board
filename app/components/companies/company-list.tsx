@@ -15,11 +15,13 @@ export default async function CompanyList({
 }) {
   const companies = await fetchCompanies(filters, orderBy, page);
   return (
-    <div className={styles.container}>
-      {companies.map((company) => (
-        <CompanyCard key={company.id} {...company} />
-      ))}
-      {companies.length === 0 && <p>No companies was found</p>}
+    <div>
+      <div className={styles.container}>
+        {companies.map((company) => (
+          <CompanyCard key={company.id} {...company} />
+        ))}
+      </div>
+      {companies.length === 0 && <p className='text-center'>No companies were found</p>}
     </div>
   );
 }

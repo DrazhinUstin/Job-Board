@@ -38,7 +38,9 @@ export default async function Page({ searchParams }: PageProps) {
       <Breadcrumbs items={[{ label: 'jobs' }]} />
       <h2 className='section-title'>Jobs</h2>
       <div className={styles.container}>
-        <Filters categories={categories} />
+        <aside>
+          <Filters categories={categories} />
+        </aside>
         <div>
           <Order options={orderOptions} />
           <Suspense key={JSON.stringify(searchParams)} fallback={<Spinner />}>

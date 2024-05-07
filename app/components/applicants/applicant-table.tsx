@@ -23,7 +23,7 @@ export default async function ApplicantTable({
           {...applicantOnJob}
         />
       ))}
-      {applicantsOnJobs.length === 0 && <p>No applicants were found</p>}
+      {applicantsOnJobs.length === 0 && <p className='text-center'>No applicants were found</p>}
     </div>
   );
 }

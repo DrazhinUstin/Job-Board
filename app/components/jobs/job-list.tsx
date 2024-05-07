@@ -15,11 +15,13 @@ export default async function JobList({
 }) {
   const jobs = await fetchJobs(filters, orderBy, currentPage);
   return (
-    <div className={styles.container}>
-      {jobs.map((job) => (
-        <JobCard key={job.id} {...job} />
-      ))}
-      {jobs.length === 0 && <p>No jobs was found</p>}
+    <div>
+      <div className={styles.container}>
+        {jobs.map((job) => (
+          <JobCard key={job.id} {...job} />
+        ))}
+      </div>
+      {jobs.length === 0 && <p className='text-center'>No jobs were found</p>}
     </div>
   );
 }

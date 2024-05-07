@@ -1,0 +1,31 @@
+.button {
+  position: fixed;
+  right: 1rem;
+  bottom: 2rem;
+  width: 2rem;
+  height: 2rem;
+  display: none;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  box-shadow: var(--shadow);
+  background-color: var(--color-primary-2);
+  color: var(--color-white);
+  font-size: 1rem;
+  animation: up_down 1s alternate 0s infinite linear;
+  z-index: 99;
+}
+
+.show_button {
+  display: grid;
+}
+
+@keyframes up_down {
+  0% {
+    translate: 0;
+  }
+
+  100% {
+    translate: 0 -1rem;
+  }
+}

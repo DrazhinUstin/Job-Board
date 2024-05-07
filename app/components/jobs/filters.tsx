@@ -26,70 +26,68 @@ export default function Filters({ categories }: { categories: Category[] }) {
   };
 
   return (
-    <aside>
-      <form onSubmit={handleSubmit} className='form'>
-        <div>
-          <label htmlFor='query'>search:</label>
+    <form onSubmit={handleSubmit} className='form'>
+      <div>
+        <label htmlFor='query'>search:</label>
+        <input
+          type='text'
+          name='query'
+          id='query'
+          placeholder='Title, location, company name'
+          defaultValue={searchParams.get('query') || undefined}
+        />
+      </div>
+      <div>
+        <label htmlFor='category'>category:</label>
+        <select
+          name='categoryName'
+          id='category'
+          defaultValue={searchParams.get('categoryName') || ''}
+        >
+          <option value=''>all</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.name}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <label htmlFor='type'>type:</label>
+        <select name='type' id='type' defaultValue={searchParams.get('type') || ''}>
+          <option value=''>all</option>
+          {jobTypes.map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <label htmlFor='minSalary'>salary range ($):</label>
+        <div className='flex-between'>
           <input
-            type='text'
-            name='query'
-            id='query'
-            placeholder='Title, location, company name'
-            defaultValue={searchParams.get('query') || undefined}
+            type='number'
+            name='minSalary'
+            id='minSalary'
+            placeholder='min'
+            defaultValue={searchParams.get('minSalary') || undefined}
+            step={0.01}
+          />
+          <span>-</span>
+          <input
+            type='number'
+            name='maxSalary'
+            id='maxSalary'
+            placeholder='max'
+            defaultValue={searchParams.get('maxSalary') || undefined}
+            step={0.01}
           />
         </div>
-        <div>
-          <label htmlFor='category'>category:</label>
-          <select
-            name='categoryName'
-            id='category'
-            defaultValue={searchParams.get('categoryName') || ''}
-          >
-            <option value=''>all</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.name}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label htmlFor='type'>type:</label>
-          <select name='type' id='type' defaultValue={searchParams.get('type') || ''}>
-            <option value=''>all</option>
-            {jobTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label htmlFor='minSalary'>salary range ($):</label>
-          <div className='flex-between'>
-            <input
-              type='number'
-              name='minSalary'
-              id='minSalary'
-              placeholder='min'
-              defaultValue={searchParams.get('minSalary') || undefined}
-              step={0.01}
-            />
-            <span>-</span>
-            <input
-              type='number'
-              name='maxSalary'
-              id='maxSalary'
-              placeholder='max'
-              defaultValue={searchParams.get('maxSalary') || undefined}
-              step={0.01}
-            />
-          </div>
-        </div>
-        <button type='submit' className='btn'>
-          apply
-        </button>
-      </form>
-    </aside>
+      </div>
+      <button type='submit' className='btn'>
+        apply
+      </button>
+    </form>
   );
 }

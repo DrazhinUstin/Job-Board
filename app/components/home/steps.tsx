@@ -2,15 +2,18 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import clsx from 'clsx';
 import styles from './steps.module.scss';
 import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 
 export default function Steps({
   data,
   images,
+  slidesFirst,
 }: {
   data: { title: string; description: string }[];
   images: StaticImport[];
+  slidesFirst?: boolean;
 }) {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   return (
@@ -30,7 +33,7 @@ export default function Steps({
           </li>
         ))}
       </ul>
-      <div className={styles.slides}>
+      <div className={clsx(styles.slides, slidesFirst && styles.slides_first)}>
         {images.map((image, index) => (
           <Image
             key={index}

@@ -24,7 +24,7 @@ export default function Page() {
         </section>
         <section className='section'>
           <h2 className='section-title'>Steps To post a Job</h2>
-          <Steps data={employerSteps} images={employerStepsImages} />
+          <Steps data={employerSteps} images={employerStepsImages} slidesFirst={true} />
         </section>
       </main>
     </>

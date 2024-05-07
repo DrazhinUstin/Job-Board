@@ -32,7 +32,9 @@ export default async function Page({ searchParams }: Props) {
       <Breadcrumbs items={[{ label: 'companies' }]} />
       <h2 className='section-title'>All Companies</h2>
       <div className={styles.container}>
-        <Filters />
+        <aside>
+          <Filters />
+        </aside>
         <div>
           <Order options={orderOptions} />
           <Suspense key={JSON.stringify(searchParams)} fallback={<Spinner />}>
