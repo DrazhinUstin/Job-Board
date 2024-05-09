@@ -353,6 +353,28 @@ export async function fetchUserOverview(userId: string) {
   }
 }
 
+export async function fetchUserTopJobs(userId: string) {
+  noStore();
+  try {
+    const data = await prisma.job.findMany({
+      where: { userId },
+      select: { title: true, _count: { select: { applicants: true } } },
+      orderBy: { applicants: { _count: 'desc' } },
+      take: 5,
+    });
+    return data.reduce(
+      (acc, { title, _count }) => ({
+        labels: [...acc.labels, title],
+        data: [...acc.data, _count.applicants],
+      }),
+      { labels: [] as string[], data: [] as number[] }
+    );
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw Error('Failed to fetch user top jobs');
+  }
+}
+
 export const applicantsOnJobsPerPage = 6;
 
 export async function fetchApplicantsOnJobs(

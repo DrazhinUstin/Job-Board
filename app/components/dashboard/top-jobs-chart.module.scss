@@ -1,0 +1,13 @@
+@use '@/app/scss/mixins';
+
+.container {
+  position: relative;
+  width: 650px;
+  height: 400px;
+  margin: 2rem auto 0;
+
+  @include mixins.breakpoint-down(lg) {
+    width: var(--fluid-width);
+    height: 60vh;
+  }
+}
