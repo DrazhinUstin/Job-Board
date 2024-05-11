@@ -6,6 +6,7 @@ import ApplyJobForm from './apply-job-form';
 import DeleteJobForm from './delete-job-form';
 import Link from 'next/link';
 import { fetchJobById } from '@/app/lib/data';
+import { formatCurrency, formatDate } from '@/app/lib/utils';
 import {
   FaBriefcase,
   FaLocationDot,
@@ -66,7 +67,7 @@ export default async function JobDetails({
                 </span>
                 <div>
                   <h4>Offered salary:</h4>
-                  <p>${salary / 100}</p>
+                  <p>{formatCurrency(salary)}</p>
                 </div>
               </li>
               <li>
@@ -75,7 +76,7 @@ export default async function JobDetails({
                 </span>
                 <div>
                   <h4>Date posted:</h4>
-                  <p>{createdAt.toDateString()}</p>
+                  <p>{formatDate(createdAt)}</p>
                 </div>
               </li>
               <li>

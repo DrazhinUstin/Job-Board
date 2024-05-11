@@ -1,6 +1,7 @@
 import { fetchApplicantsOnJobs } from '@/app/lib/data';
 import { Prisma } from '@prisma/client';
 import Link from 'next/link';
+import { formatDate } from '@/app/lib/utils';
 import DeleteApplicantForm from './delete-applicant-form';
 import Avatar from '../avatar';
 import { FaEye } from 'react-icons/fa6';
@@ -23,7 +24,7 @@ export default function ApplicantRow({
         </Link>
       </div>
       <div>
-        <p>{appliedAt.toDateString()}</p>
+        <p>{formatDate(appliedAt)}</p>
       </div>
       <div className='grid-center'>
         <Link href={`/dashboard/applicants/${applicantId}`} scroll={false} className='btn'>

@@ -1,4 +1,5 @@
 import { fetchCompanyById } from '@/app/lib/data';
+import { formatDate } from '@/app/lib/utils';
 import { FaBriefcase, FaLocationDot, FaGlobe, FaClock } from 'react-icons/fa6';
 import styles from './company-details.module.scss';
 
@@ -45,7 +46,7 @@ export default function CompanyDetails({
           </span>
           <div>
             <h4>Published:</h4>
-            <p>{createdAt.toDateString()}</p>
+            <p>{formatDate(createdAt)}</p>
           </div>
         </li>
         <li>

@@ -7,3 +7,18 @@ export function generatePagination(currentPage: number, totalPages: number): Arr
   }
   return [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages];
 }
+
+export function formatDate(date: Date | string, locale: string = 'en-US') {
+  return new Intl.DateTimeFormat(locale, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  }).format(typeof date === 'string' ? new Date(date) : date);
+}
+
+export function formatCurrency(amountInCents: number, locale: string = 'en-US') {
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: 'USD',
+  }).format(amountInCents / 100);
+}

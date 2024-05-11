@@ -10,13 +10,13 @@ export default function Providers() {
     <div className='form-card'>
       <h2 className='form-title'>Sign in with</h2>
       <ProviderForm providerId='github'>
-        <FormSubmitBtn className='btn-flex btn-alt'>
+        <FormSubmitBtn className='btn-flex btn-alt w-100'>
           <FaGithub />
           github
         </FormSubmitBtn>
       </ProviderForm>
       <ProviderForm providerId='google'>
-        <FormSubmitBtn className='btn-flex'>
+        <FormSubmitBtn className='btn-flex w-100'>
           <FaGoogle />
           google
         </FormSubmitBtn>
