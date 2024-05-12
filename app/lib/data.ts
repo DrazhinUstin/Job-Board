@@ -353,7 +353,7 @@ export async function fetchUserOverview(userId: string) {
   }
 }
 
-export async function fetchUserTopJobs(userId: string) {
+export async function fetchUserJobsChartData(userId: string) {
   noStore();
   try {
     const data = await prisma.job.findMany({
@@ -372,6 +372,31 @@ export async function fetchUserTopJobs(userId: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw Error('Failed to fetch user top jobs');
+  }
+}
+
+export async function fetchUserCategoriesChartData(userId: string) {
+  noStore();
+  try {
+    const data = (
+      await prisma.category.findMany({
+        where: { jobs: { some: { userId } } },
+        select: { name: true, _count: { select: { jobs: { where: { userId } } } } },
+      })
+    )
+      .sort((a, b) => b._count.jobs - a._count.jobs)
+      .reduce((acc, { name, _count: { jobs: jobsCount } }, index) => {
+        if (index > 3) {
+          acc['Others'] = (acc['Others'] || 0) + jobsCount;
+        } else {
+          acc[name] = jobsCount;
+        }
+        return acc;
+      }, {} as { [index: string]: number });
+    return { labels: Object.keys(data), data: Object.values(data) };
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw Error('Failed to fetch user categories chart data');
   }
 }
 

@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import Overview from '../components/dashboard/overview';
-import TopJobsChart from '../components/dashboard/top-jobs-chart';
+import Charts from '../components/dashboard/charts';
 import Spinner from '../components/spinner';
 
 export default function Page() {
@@ -10,7 +10,7 @@ export default function Page() {
         <Overview />
       </Suspense>
       <Suspense fallback={<Spinner />}>
-        <TopJobsChart />
+        <Charts />
       </Suspense>
     </main>
   );
