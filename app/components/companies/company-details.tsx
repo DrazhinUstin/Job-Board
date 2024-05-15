@@ -33,7 +33,12 @@ export default function CompanyDetails({
             <div>
               <h4>Website:</h4>
               <p>
-                <a href={websiteUrl} target='_blank' rel='noopener noreferrer'>
+                <a
+                  href={websiteUrl}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='text-link'
+                >
                   {name}
                 </a>
               </p>

@@ -38,12 +38,16 @@ export default async function Charts() {
 
   return (
     <div>
-      <div className={styles.chart_container}>
-        <BarChart title='Top jobs by applicants' data={barChartData} />
-      </div>
-      <div className={styles.chart_container}>
-        <PieChart title='Jobs categories' data={pieChartData} />
-      </div>
+      {jobsChartData.data[0] > 0 && (
+        <div className={styles.chart_container}>
+          <BarChart title='Top jobs by applicants' data={barChartData} />
+        </div>
+      )}
+      {categoriesChartData.labels.length > 0 && (
+        <div className={styles.chart_container}>
+          <PieChart title='Jobs categories' data={pieChartData} />
+        </div>
+      )}
     </div>
   );
 }

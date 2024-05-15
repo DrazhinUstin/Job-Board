@@ -1,5 +1,6 @@
 import { auth } from '@/auth';
 import { prisma } from '@/client';
+import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import FormSubmitBtn from '../form-submit-btn';
 
@@ -7,17 +8,17 @@ export default async function ApplyJobForm({ jobId }: { jobId: string }) {
   const user = (await auth())?.user;
   const applicant = await prisma.applicant.findUnique({
     where: { userId: user?.id },
-    select: { jobs: { where: { jobId } } },
+    select: { id: true, jobs: { where: { jobId } } },
   });
   const isJobAppliedByUser = !!applicant?.jobs[0];
 
-  const toggleConnection = async () => {
+  const toggleJobApplication = async () => {
     'use server';
     if (!user) {
       throw Error('Not authorized access. Cannot apply for a job');
     }
     if (!applicant) {
-      throw Error('No applicant profile. Cannot apply for a job');
+      redirect('/profile/applicant/edit');
     }
     try {
       await prisma.applicant.update({
@@ -26,7 +27,7 @@ export default async function ApplyJobForm({ jobId }: { jobId: string }) {
           jobs: isJobAppliedByUser
             ? {
                 delete: {
-                  applicantId_jobId: { applicantId: applicant.jobs[0].applicantId, jobId },
+                  applicantId_jobId: { applicantId: applicant?.id, jobId },
                 },
               }
             : {
@@ -40,12 +41,12 @@ export default async function ApplyJobForm({ jobId }: { jobId: string }) {
       });
       revalidatePath('/');
     } catch (error) {
-      throw Error('Database error: Failed to toggle connection to a job');
+      throw Error('Database error: Failed to toggle job application');
     }
   };
 
   return (
-    <form action={toggleConnection}>
+    <form action={toggleJobApplication}>
       <FormSubmitBtn className={`${isJobAppliedByUser ? 'btn-alert' : 'btn'} w-100`}>
         {isJobAppliedByUser ? 'applied' : 'apply'}
       </FormSubmitBtn>

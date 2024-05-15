@@ -1,5 +1,6 @@
 import { auth } from '@/auth';
 import { Prisma } from '@prisma/client';
+import { Suspense } from 'react';
 import CompanyLogo from '../company-logo';
 import JobContacts from './job-contacts';
 import ApplyJobForm from './apply-job-form';
@@ -90,7 +91,17 @@ export default async function JobDetails({
               </li>
             </ul>
             <JobContacts contactEmail={contactEmail} contactUrl={contactUrl} />
-            {user && user.id !== userId && <ApplyJobForm jobId={id} />}
+            {user && user.id !== userId && (
+              <Suspense
+                fallback={
+                  <button className='btn w-100' disabled={true}>
+                    loading
+                  </button>
+                }
+              >
+                <ApplyJobForm jobId={id} />
+              </Suspense>
+            )}
           </div>
           {company && (
             <div className={styles.company}>
