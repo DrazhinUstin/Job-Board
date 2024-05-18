@@ -1,4 +1,5 @@
 import { auth } from '@/auth';
+import Link from 'next/link';
 import { fetchUserOverview } from '@/app/lib/data';
 import CompanyLogo from '../company-logo';
 import { FaBuilding, FaBriefcase, FaUsers } from 'react-icons/fa6';
@@ -14,7 +15,11 @@ export default async function Overview() {
           <>
             <CompanyLogo src={company.logoUrl} width={64} height={64} />
             <div>
-              <h3>{company.name}</h3>
+              <h3>
+                <Link href={`/companies/${company.id}`} className='text-link'>
+                  {company.name}
+                </Link>
+              </h3>
               <p>Your company</p>
             </div>
           </>

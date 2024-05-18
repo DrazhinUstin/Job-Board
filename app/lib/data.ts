@@ -7,6 +7,16 @@ import { orderOptions as companiesOrder } from './company-order-options';
 import { orderOptions as applicantsOnJobsOrder } from './applicants-on-jobs-order-options';
 import { cache } from 'react';
 
+export async function fetchUser(email: string) {
+  try {
+    const user = await prisma.user.findUnique({ where: { email } });
+    return user;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw Error('Failed to fetch user');
+  }
+}
+
 export async function fetchCategories() {
   try {
     const categories = await prisma.category.findMany({ orderBy: { name: 'asc' } });
@@ -332,7 +342,7 @@ export async function fetchUserOverview(userId: string) {
     const data = await prisma.user.findUnique({
       where: { id: userId },
       select: {
-        company: { select: { name: true, logoUrl: true } },
+        company: { select: { id: true, name: true, logoUrl: true } },
         jobs: {
           select: { _count: { select: { applicants: true } } },
         },

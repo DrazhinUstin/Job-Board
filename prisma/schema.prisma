@@ -33,10 +33,16 @@ model User {
   email         String?    @unique
   emailVerified DateTime?
   image         String?
+  role          Role       @default(USER)
   accounts      Account[]
   jobs          Job[]
   company       Company?
   applicant     Applicant?
+}
+
+enum Role {
+  USER
+  ADMIN
 }
 
 model Company {

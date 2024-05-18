@@ -1,11 +1,10 @@
-import GitHub from 'next-auth/providers/github';
-import Google from 'next-auth/providers/google';
 import type { NextAuthConfig } from 'next-auth';
+import type { Role } from '@prisma/client';
 
 const privateRoutes = ['/profile', '/dashboard'];
 
 export default {
-  providers: [GitHub, Google],
+  providers: [],
   pages: {
     signIn: '/auth/signin',
   },
@@ -25,12 +24,16 @@ export default {
       }
       return true;
     },
-    jwt({ token }) {
+    jwt({ token, user }) {
+      if (user) token.role = user.role;
       return token;
     },
     session({ session, token }) {
       if (token.sub) {
         session.user.id = token.sub;
+      }
+      if (token.role) {
+        session.user.role = token.role as Role;
       }
       return session;
     },
